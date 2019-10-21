@@ -23,7 +23,7 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   Serial.print("Reading: ");
-  Serial.print(scale.get_units(), 1);
-  Serial.print(" kgs"); //Change this to kg and re-adjust the calibration factor if you follow SI units like a sane person
+  Serial.print((scale.get_units()*-1)-150, 1);
+  Serial.print(" gramos"); //Change this to kg and re-adjust the calibration factor if you follow SI units like a sane person
   Serial.println();
 }
