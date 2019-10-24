@@ -15,5 +15,5 @@ El bloque del servidor es el encargado del procesado de los datos recopilados y 
 #### Servidor
 El servidor se compondrá de dos Docker, uno para la base de datos que se desarrollará en PostgreSQL y se modelará con PgModeller, y otro para el servidor web que se implementará en Flask. Ambos se conectarán entre sí mediante Docker Compose.
 ## Diagrama de despliegue
-!["despliegue"](https://github.com/JuanCasado/COMPUTACION_UBICUA/blob/master/docs/ubicua-despliegue.png)
+!["despliegue"](https://github.com/JuanCasado/COMPUTACION_UBICUA/blob/master/docs/img/ubicua-despliegue.png)
 [Modificar](https://drive.google.com/file/d/10vnE64GIEg94d85AUN2JgCjgdXFPqmgg/view?usp=sharing "Modificar diagrama")
