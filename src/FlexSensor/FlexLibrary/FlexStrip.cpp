@@ -18,7 +18,7 @@ void FlexStrip::init(){
 }
 
 int FlexStrip::size(){
-  return this->heat_len;
+  return this->len;
 }
 
 float FlexStrip::read(int sensor){
@@ -41,17 +41,20 @@ void FlexStrip::rawRead(float* sensors){
   }
 }
 
-float* FlexStrip::getHeatLine(){
+float* FlexStrip::getHeatLine() {
+  for (int i = 0; i < this->heat_len; ++i){
+    this->heat_line[i] = 0;
+  }
   for (int i = 0; i < this->len; ++i){
     float measure = this->read(i);
     float gaussian_measure = measure*0.7;
-    int lower_heat_index = i*2;
-    this->heat_line[lower_heat_index] = gaussian_measure;
-    this->heat_line[lower_heat_index+1] = measure;
-    this->heat_line[lower_heat_index+1] = gaussian_measure;
+    int lower_index = i*2;
+    this->heat_line[lower_index] += gaussian_measure;
+    this->heat_line[lower_index+1] += measure;
+    this->heat_line[lower_index+2] += gaussian_measure;
   }
   return this->heat_line;
 }
 int FlexStrip::heatSize(){
-  return this->len;
+  return this->heat_len;
 }

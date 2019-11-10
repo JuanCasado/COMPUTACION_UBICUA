@@ -139,9 +139,15 @@ for(i = 0; i < 8; ++i) {
 
 #### Sensores de sonido
 
+Utilizaremos los sensores de sonido para medir el ruido ambiente con la intención de detectar cuando la calidad del sueño del usuario baja.
+Para leer esto sensores solo será necesario utilizar una entrada digital que nos indicará cuando el nivel de ruido supera cierto umbral.
 
+La principal dificultad para utilizar este sensor consiste en filtrar cuando un nivel de ruido alto tiene sentido para nuestro propósito.
+La información proporcionada es de gran calidad pudiendo detectar ronquidos u otros ruidos nocturnos aunque antes de poder utilizarla debemos de habernos asegurado de que el usuario se ha dormido para evitar confundir lo percibido con que el usuario esté hablando.
 
 #### Sensores de luz
+
+Utilizamos estos
 
 #### Sensor de humedad
 

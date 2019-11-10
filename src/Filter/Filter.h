@@ -1,4 +1,5 @@
 
+#pragma once
 #include "Arduino.h"
 
 class Filter {
@@ -10,5 +11,5 @@ class Filter {
     float lowPassFilter();
     float* data;
     int len;
-    int index;
+    int index = 0;
 };

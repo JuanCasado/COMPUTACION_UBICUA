@@ -12,7 +12,7 @@ void Filter::init() {
 float Filter::filter (float measure){
   //The new measure is placed in the filter.
   this->data[this->index] = measure;
-  this->index = (this->index+1)%len;
+  this->index = (this->index+1)%this->len;
   return this->lowPassFilter();
 }
 
@@ -27,7 +27,7 @@ float Filter::lowPassFilter() {
   float max = this->data[0];
   float min = this->data[0];
   for (int i = 0; i < this->len; ++i){
-    float value = this->data[this->index]/divide_factor;
+    float value = this->data[i]/divide_factor;
     acc += value;
     if (value > max){
       max = value;
@@ -35,7 +35,6 @@ float Filter::lowPassFilter() {
       min = value;
     }
   }
-  acc - min;
-  acc - max;
+  acc -= min; acc -= max;
   return acc;
 }

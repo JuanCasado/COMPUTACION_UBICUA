@@ -19,7 +19,7 @@ float FlexSensor::read(){
 	int analog_voltage = analogRead(this->pin);
 	float flex_voltage = analog_voltage * this->voltage / 1023.0;
 	float flex_resistor = this->resistor * (this->voltage / flex_voltage - 1.0);
-	float angle = map(flex_resistor, this->straight_resistance, this->flex_resistance, 0.0, 90.0);
+	float angle = map(constrain(flex_resistor, this->flex_resistance, this->straight_resistance), this->flex_resistance, this->straight_resistance, 100, 0);
 	return this->filter->filter(angle);
 }
 

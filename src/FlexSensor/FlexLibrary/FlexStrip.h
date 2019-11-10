@@ -1,6 +1,6 @@
 
+#pragma once
 #include "FlexSensor.h"
-
 class FlexStrip {
   public:
     FlexStrip(int sensor_amount, int* sensor_pin);
