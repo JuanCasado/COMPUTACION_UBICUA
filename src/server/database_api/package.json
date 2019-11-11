@@ -1,0 +1,22 @@
+{
+  "name": "database_api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./lib/main.js",
+  "scripts": {
+    "build": "babel ./src -d ./lib --extensions \".ts,.js\" --copy-files",
+    "start": "node ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.7.10"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.7.0",
+    "@babel/core": "^7.7.2",
+    "@babel/preset-env": "^7.7.1"
+  }
+}

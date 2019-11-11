@@ -1,0 +1,16 @@
+version: '3.3'
+services:
+  database_api:
+    container_name: database_api
+    build: ./database_api/
+    volumes: 
+      - ./database_api/:/database_api
+    ports:
+      - 8080:80
+  web:
+    container_name: web
+    build: ./web/
+    volumes: 
+      - ./web/:/web
+    ports:
+      - 80:80
