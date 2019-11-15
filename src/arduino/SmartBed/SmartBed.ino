@@ -13,23 +13,28 @@ void setup() {
 }
 
 void loop () {
-  printHeat();
-  printWeight();
+  Serial.println(getJSON ());
   delay(1000);
 }
 
-void printHeat () {
-  float* heat_line = flex_strip->getHeatLine();
-  Serial.print("Flex:[");
-  for (int i = 0; i < flex_strip->heatSize(); ++i){
-    Serial.print(heat_line[i]);
-    Serial.print(", ");
-  }
-  Serial.println("];");
+String getJSON (){
+  return String("{") + printHeat () + String(",") + printWeight () + String("}");
 }
 
-void printWeight () {
-  Serial.print("Weight: ");
-  Serial.print(weight_sensor->read());
-  Serial.println(";");
+String printHeat () {
+  float* heat_line = flex_strip->getHeatLine();
+  String heat = String("\"Flex\":[");
+  for (int i = 0; i < flex_strip->heatSize(); ++i){
+    heat += String(heat_line[i]);
+    if (i != (flex_strip->heatSize()-1)){
+      heat += String(", ");
+    }
+  }
+  heat += String("]");
+  return heat;
+}
+
+String printWeight () {
+  return String("\"Weight\": ") +
+  String(weight_sensor->read());
 }
