@@ -6,7 +6,7 @@ app.use(bp.json())
 app.use(bp.urlencoded({extended: true}))
 const port = 80
 
-app.get("/", (req, res) => {
+app.post("/", (req, res) => {
   console.log(req.body)
   res.send(req.body)
 })
