@@ -7,7 +7,7 @@ const _bodyParser = require("body-parser");
 // Connection and configuration.
 var app = _express();
 var port = 80;
-_mongoose.connect("mongodb://localhost:27018/smart_bed", {
+_mongoose.connect("mongodb://163.172.80.168:27018/smart_bed", {
     "user": "sensor_user",
     "pass": "sensor",
 });
@@ -233,6 +233,18 @@ app.get("/alarms/:id", async (request, response, next) => {
     }
 });
 
+
+
+// Get a register from the database using user.
+app.get("/alarms/user/:id", async (request, response, next) => {
+    try {
+        var record = await AlarmModel.find({userId:request.params.id}).exec();
+        response.send(record);
+    } catch (error) {
+        response.status(500).send(error);
+    }
+});
+
 // Update a register in the database.
 app.put("/alarm/:id", async (request, response, next) => {
     try {
@@ -280,6 +292,16 @@ app.get("/flexes/:id", async (request, response, next) => {
     }
 });
 
+// Get a register from the database using user.
+app.get("/flexes/user/:id", async (request, response, next) => {
+    try {
+        var record = await FlexModel.find({userId:request.params.id}).exec();
+        response.send(record);
+    } catch (error) {
+        response.status(500).send(error);
+    }
+});
+
 // Update a register in the database.
 app.put("/flex/:id", async (request, response, next) => {
     try {
@@ -321,6 +343,16 @@ app.get("/habits", async (request, response, next) => {
 app.get("/habits/:id", async (request, response, next) => {
     try {
         var record = await HabitModel.findById(request.params.id).exec();
+        response.send(record);
+    } catch (error) {
+        response.status(500).send(error);
+    }
+});
+
+// Get a register from the database using user.
+app.get("/habits/user/:id", async (request, response, next) => {
+    try {
+        var record = await HabitModel.find({userId:request.params.id}).exec();
         response.send(record);
     } catch (error) {
         response.status(500).send(error);
@@ -384,6 +416,16 @@ app.get("/humidities/:id", async (request, response, next) => {
     }
 });
 
+// Get a register from the database using user.
+app.get("/humidities/user/:id", async (request, response, next) => {
+    try {
+        var record = await HumidityModel.find({userId:request.params.id}).exec();
+        response.send(record);
+    } catch (error) {
+        response.status(500).send(error);
+    }
+});
+
 // Update a register in the database.
 app.put("/humidity/:id", async (request, response, next) => {
     try {
@@ -440,6 +482,17 @@ app.get("/noises/:id", async (request, response, next) => {
     }
 });
 
+
+// Get a register from the database using user.
+app.get("/noises/user/:id", async (request, response, next) => {
+    try {
+        var record = await NoiseModel.find({userId:request.params.id}).exec();
+        response.send(record);
+    } catch (error) {
+        response.status(500).send(error);
+    }
+});
+
 // Update a register in the database.
 app.put("/noise/:id", async (request, response, next) => {
     try {
@@ -481,6 +534,16 @@ app.get("/positions", async (request, response, next) => {
 app.get("/positions/:id", async (request, response, next) => {
     try {
         var record = await PositionModel.findById(request.params.id).exec();
+        response.send(record);
+    } catch (error) {
+        response.status(500).send(error);
+    }
+});
+
+// Get a register from the database using user.
+app.get("/positions/user/:id", async (request, response, next) => {
+    try {
+        var record = await PositionModel.find({userId:request.params.id}).exec();
         response.send(record);
     } catch (error) {
         response.status(500).send(error);
@@ -542,6 +605,17 @@ app.get("/temperatures/:id", async (request, response, next) => {
     }
 });
 
+// Get a register from the database using user.
+app.get("/temperatures/user/:id", async (request, response, next) => {
+    try {
+        var record = await TemperatureModel.find({userId:request.params.id}).exec();
+        response.send(record);
+    } catch (error) {
+        response.status(500).send(error);
+    }
+});
+
+
 // Update a register in the database.
 app.put("/temperature/:id", async (request, response, next) => {
     try {
@@ -597,6 +671,16 @@ app.get("/users/:id", async (request, response, next) => {
     }
 });
 
+// Get a register from the database using user.
+app.get("/users/user/:id", async (request, response, next) => {
+    try {
+        var record = await UserModel.find({userId:request.params.id}).exec();
+        response.send(record);
+    } catch (error) {
+        response.status(500).send(error);
+    }
+});
+
 // Update a register in the database.
 app.put("/user/:id", async (request, response, next) => {
     try {
@@ -637,6 +721,16 @@ app.get("/weights", async (request, response, next) => {
 app.get("/weights/:id", async (request, response, next) => {
     try {
         var record = await WeightModel.findById(request.params.id).exec();
+        response.send(record);
+    } catch (error) {
+        response.status(500).send(error);
+    }
+});
+
+// Get a register from the database using user.
+app.get("/weights/user/:id", async (request, response, next) => {
+    try {
+        var record = await WeightModel.find({userId:request.params.id}).exec();
         response.send(record);
     } catch (error) {
         response.status(500).send(error);
