@@ -2003,13 +2003,18 @@ if (typeof NProgress != 'undefined') {
 				
 			  // Line chart
 			 
-			if ($('#valoresTemp').length ){	
-			
+			if ($('#valoresTemp').length ){
+
+				let datosTemp=datos.generadorDatos()
+				let labels=datosTemp.labels
+				let labels=datosTemp.data
+
+				
 			  var ctx = document.getElementById("valoresTemp");
 			  var valoresTemp = new Chart(ctx, {
 				type: 'line',
 				data: {
-					labels: ["20:00", "21:00", "22:00", "23:00", "00:00", "1:00", "2:00","3:00","4:00","5:00","6:00","7:00","8:00","9:00","10:00","11:00","12:00"],
+					labels: labels,
 				  datasets: [{
 					label: "My First dataset",
 					backgroundColor: "rgba(38, 185, 154, 0.31)",
@@ -2019,10 +2024,11 @@ if (typeof NProgress != 'undefined') {
 					pointHoverBackgroundColor: "#fff",
 					pointHoverBorderColor: "rgba(220,220,220,1)",
 					pointBorderWidth: 1,
-					data: [31, 74, 6, 39, 20, 85, 7, 5, 32, 34, 2, 23, 34, 15, 13, 15, 21 ]
+					data: data
 				}]
 				},
 				options: {
+					
 					scales:	{
 						yAxes: [{
 							ticks: {
@@ -2038,11 +2044,13 @@ if (typeof NProgress != 'undefined') {
 								}
 							}
 						}]
-					}
+					},
+					
 				}
 			  });
 			
 			}
+			
 
 			if ($('#valoresHum').length ){	
 			
@@ -2060,9 +2068,27 @@ if (typeof NProgress != 'undefined') {
 					  pointHoverBackgroundColor: "#fff",
 					  pointHoverBorderColor: "rgba(220,220,220,1)",
 					  pointBorderWidth: 1,
-					  data: [31, 74, 6, 39, 20, 85, 7, 5, 32, 34, 2, 23, 34, 15, 13, 15, 21 ]
+					  data: [31, 24, 6, 24, 20, 25, 7, 5, 32, 34, 2, 23, 34, 15, 13, 15, 21 ]
 					}]
 				  },
+				  options: {
+					scales:	{
+						yAxes: [{
+							ticks: {
+								beginAtZero:false
+							},
+							scaleLabel: {
+								display: true,
+								labelString: 'Humedad Relativa'
+							},
+							afterTickToLabelConversion : function(q){
+								for(var tick in q.ticks){
+									q.ticks[tick] += '\u0025';
+								}
+							}
+						}]
+					}
+				}
 				});
 			  
 			  }
@@ -2085,6 +2111,24 @@ if (typeof NProgress != 'undefined') {
 					  data: [31, 74, 6, 39, 20, 85, 7, 5, 32, 34, 2, 23, 34, 15, 13, 15, 21 ]
 					}]
 				  },
+				  options: {
+					scales:	{
+						yAxes: [{
+							ticks: {
+								beginAtZero:false
+							},
+							scaleLabel: {
+								display: true,
+								labelString: 'Decibelios'
+							},
+							afterTickToLabelConversion : function(q){
+								for(var tick in q.ticks){
+									q.ticks[tick] += '\u33C8';
+								}
+							}
+						}]
+					}
+				}
 				});
 			  
 			  }
@@ -2227,31 +2271,35 @@ if (typeof NProgress != 'undefined') {
 			  
 			  // PolarArea chart
 
-			if ($('#polarArea').length ){
+			if ($('#horasSemana').length ){
 
-				var ctx = document.getElementById("polarArea");
+				var ctx = document.getElementById("horasSemana");
 				var data = {
 				datasets: [{
-				  data: [150, 50, 140, 180, 100],
+				  data: [4.5, 7.8, 8, 10, 6, 7 , 7],
 				  backgroundColor: [
 					"#455C73",
 					"#9B59B6",
 					"#BDC3C7",
 					"#26B99A",
-					"#3498DB"
+					"#3498DB",
+					"#26B99A",
+					"#9B59B6"
 				  ],
 				  label: 'My dataset'
 				}],
 				labels: [
-				  "Dark Gray",
-				  "Purple",
-				  "Gray",
-				  "Green",
-				  "Blue"
+				  "Lunes",
+				  "Martes",
+				  "Miercoles",
+				  "Jueves",
+				  "Viernes",
+				  "Sábado",
+				  "Domingo"
 				]
 				};
 
-				var polarArea = new Chart(ctx, {
+				var horasSemana = new Chart(ctx, {
 				data: data,
 				type: 'polarArea',
 				options: {
