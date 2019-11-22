@@ -10,7 +10,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 // Connection and configuration.
 var app = (0, _express["default"])();
-var port = 80;
+var port = 900;
 Mongoose.connect("mongodb://localhost:27018/smart_bed", {
     "user": "sensor_user",
     "pass": "sensor",
@@ -59,7 +59,7 @@ const FlexModel = Mongoose.model("flex",{
         type: String,
         required: true
     },
-    flex: 
+    value: 
     {
         type:  [Number],
         required: true
@@ -90,7 +90,7 @@ const HumidityModel = Mongoose.model("humidity",{
         type: String,
         required: true
     },
-    humidity: 
+    value: 
     {
         type: Number,
         required: true
@@ -108,7 +108,7 @@ const NoiseModel = Mongoose.model("noise",{
         type: String,
         required: true
     },
-    decibel: 
+    value: 
     {
         type:  Number,
         required: true
@@ -145,7 +145,7 @@ const TemperatureModel = Mongoose.model("temperature",{
         type: String,
         required: true
     },
-    temp:     {
+    value:     {
         type: Number,
         required: true
     },
@@ -190,7 +190,7 @@ const WeightModel = Mongoose.model("weight",{
         type: String,
         required: true
     },
-    weight: 
+    value: 
     {
         type: Number,
         required: true
