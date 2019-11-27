@@ -34,8 +34,8 @@ body {text-align:center;}
 #xr_pnavm:hover #xr_pnavp {visibility:visible;}
 #xr_pnavp:hover #xr_pnavm {visibility:visible; opacity:0.9;}
 #xr_palrt {position: fixed; display: block; left: 4px; bottom: -300px; width: 250px; color: white; padding: 4px; background-color: #222222; border-radius: 8px; z-index:100; visibility:hidden; transition: bottom 0.5s, visibility 0.5s;-moz-transition: bottom 0.5s, visibility 0.5s;-webkit-transition: bottom 0.5s, visibility 0.5s;-o-transition: bottom 0.5s, visibility 0.5s; box-shadow: 4px 4px 4px #000;opacity: 0.9;}
-.xr_c_Text {color:#1E1E1E;}
 .xr_c_Theme_Color_1 {color:#255F85;}
+.xr_c_Text {color:#1E1E1E;}
 .xr_bgb0 {background-color: #F1F1F1;}
 .xr_page0 {top:0px; width:960px;}
 .xr_bgb1 {background-color: #FFFFFF;}
