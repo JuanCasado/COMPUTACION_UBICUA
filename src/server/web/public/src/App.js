@@ -3,10 +3,8 @@ function App() {
   return (
     <div className="centered App">
       <div className="text-left">
-        <h1 className="blend">Smart Bed</h1>
-        <p className="blend">
-          Ubiquitous Computing at UAH
-        </p>
+        <h1>Smart Bed</h1>
+        <p>Ubiquitous Computing at UAH</p>
       </div>
       <div className="dropdown-divider"></div>
       <div className="text-center">
