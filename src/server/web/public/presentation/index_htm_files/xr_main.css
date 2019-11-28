@@ -1,0 +1,64 @@
+/* Site settings */
+body {background-color:#ffffff;margin:0px;font-family:Arial,sans-serif;font-size:13px;font-weight:normal;font-style:normal;text-decoration:none;color:#000000;letter-spacing:0em;-webkit-print-color-adjust:exact;}
+a {text-decoration:none;}
+a:link {color:#0000EE; cursor:pointer;}
+a:visited {color:#561A8B;}
+a:hover {color:#0000EE;}
+a * {color:#0000EE;text-decoration:none;}
+sup {font-size:0.7em; vertical-align: 0.3em;}
+sub {font-size:0.7em;}
+.xr_tl {position: absolute; white-space: pre; unicode-bidi:bidi-override;}
+.xr_tr {position: absolute; white-space: pre; unicode-bidi:bidi-override; text-align:right;}
+.xr_tc {position: absolute; white-space: pre; unicode-bidi:bidi-override; text-align:center;}
+.xr_tj {position: absolute; unicode-bidi:bidi-override; text-align:justify;}
+.xr_ap {position: absolute; border:none;}
+.xr_ar {position: absolute; display:block;}
+.xr_ae {position: relative; border:none;}
+.xr_tb {position: absolute; unicode-bidi:bidi-override;}
+.xr_tu {unicode-bidi:bidi-override;margin-top:0px;margin-bottom:0px;}
+body {text-align:center;}
+@media screen, handheld {
+.xr_app {position: absolute;}
+.xr_apb {display:block; position:absolute;}
+.xr_pnav {position:absolute; display:block; text-align:left; background-image:url('03.png'); background-attachment:scroll; top:8px; width:16px; height:16px;}
+.xr_pnav:hover {background-image:url('04.png');}
+.xr_pnavmenu {font-family:'Arial';font-size:12pt;color:#5d99d3;text-decoration:none;}
+.xr_pnavmenu:link {color:#cccccc;}
+.xr_pnavmenu:visited {color:#cccccc;}
+.xr_pnavmenu:hover {color:#83b1e0;}
+#xr_pnava {position: fixed; display: block; left: 0px; bottom: 0px; height: 24px; width: 120px; z-index:1100; background-image: url('0.gif');}
+#xr_pnavh {position: fixed; display: block; left: 4px; bottom: -40px; height: 36px; width: 116px; background-color: #222222; border-radius: 8px; z-index:1200; visibility:hidden;transition: bottom 0.2s, visibility 0.2s;-moz-transition: bottom 0.2s, visibility 0.2s;-webkit-transition: bottom 0.2s, visibility 0.2s;-o-transition: bottom 0.2s, visibility 0.2s; box-shadow: 4px 4px 4px #000;opacity: 0.9;}
+#xr_pnavm {position: fixed; display: block; left: 108px; bottom: 8px; overflow: auto; background-color: #222222; border-radius: 8px; padding: 16px; z-index:1100; visibility:hidden; opacity:0; transition: opacity 0.2s, visibility 0.2s;-moz-transition: opacity 0.2s, visibility 0.2s;-webkit-transition: opacity 0.2s, visibility 0.2s;-o-transition: opacity 0.2s, visibility 0.2s; box-shadow: 4px 4px 4px #000; white-space: nowrap;}
+#xr_pnava:hover #xr_pnavh {visibility:visible; bottom:4px;}
+#xr_pnavm:hover {visibility:visible;}
+#xr_pnavm:hover #xr_pnavp {visibility:visible;}
+#xr_pnavp:hover #xr_pnavm {visibility:visible; opacity:0.9;}
+#xr_palrt {position: fixed; display: block; left: 4px; bottom: -300px; width: 250px; color: white; padding: 4px; background-color: #222222; border-radius: 8px; z-index:100; visibility:hidden; transition: bottom 0.5s, visibility 0.5s;-moz-transition: bottom 0.5s, visibility 0.5s;-webkit-transition: bottom 0.5s, visibility 0.5s;-o-transition: bottom 0.5s, visibility 0.5s; box-shadow: 4px 4px 4px #000;opacity: 0.9;}
+.xr_c_Theme_Color_1 {color:#255F85;}
+.xr_c_Text {color:#1E1E1E;}
+.xr_bgb0 {background-color: #F1F1F1;}
+.xr_page0 {top:0px; width:960px;}
+.xr_bgb1 {background-color: #FFFFFF;}
+.xr_page1 {top:0px; width:960px;}
+.xr_bgb2 {background-color: #FFFFFF;}
+.xr_page2 {top:0px; width:960px;}
+.xr_bgb3 {background-color: #FFFFFF;}
+.xr_page3 {top:0px; width:960px;}
+.xr_bgb4 {background-color: #FFFFFF;}
+.xr_page4 {top:0px; width:960px;}
+.xr_bgb5 {background-color: #FFFFFF;}
+.xr_page5 {top:0px; width:960px;}
+.xr_bgb6 {background-color: #FFFFFF;}
+.xr_page6 {top:0px; width:960px;}
+.xr_bgb7 {background-color: #FFFFFF;}
+.xr_page7 {top:0px; width:960px;}
+.xr_bgb8 {background-color: #FFFFFF;}
+.xr_page8 {top:0px; width:960px;}
+.xr_bgb9 {background-color: #FFFFFF;}
+.xr_page9 {top:0px; width:960px;}
+}
+@media print {
+ .xr_app {position:relative; top:0px; page-break-after: always; display: block !important; visibility: visible !important;}
+ .xr_apb {display:none;}
+ #xr_xrii{overflow:visible !important; position: relative !important;}
+}
