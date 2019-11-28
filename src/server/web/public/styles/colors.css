@@ -1,5 +1,5 @@
 
 .blend {
-  color: #FFFFFF;
-  mix-blend-mode: multiply;
+  color: #CCCCCC;
+  mix-blend-mode: difference;
 }
