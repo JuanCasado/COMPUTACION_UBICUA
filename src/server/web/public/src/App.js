@@ -4,9 +4,9 @@ function App() {
     <div className="centered App">
       <div className="text-left">
         <h1 className="blend">Smart Bed</h1>
-        <text className="blend">
+        <p className="blend">
           Ubiquitous Computing at UAH
-        </text>
+        </p>
       </div>
       <div className="dropdown-divider"></div>
       <div className="text-center">
