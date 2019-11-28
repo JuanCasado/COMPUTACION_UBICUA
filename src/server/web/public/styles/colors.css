@@ -1,5 +1,7 @@
 
 .blend {
-  color: white;
-  mix-blend-mode: difference;
+  background: inherit;
+  background-clip: text;
+  color: transparent;
+  filter: invert(1);
 }
