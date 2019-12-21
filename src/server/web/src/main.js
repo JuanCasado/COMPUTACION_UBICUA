@@ -1,5 +1,4 @@
-import express from "express"
-import react from 'react'
+const express = require("express");
 
 const port = 80
 const app = express()
