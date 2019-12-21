@@ -114,5 +114,5 @@ db.createUser(
 ### Autenticarse con usuarios nuevos
 Autenticación de un usuario sobre la base de datos de smartbed
 ```shell
-mongo --authenticationDatabase "smart_bed" -u "sensor_server" -p "sensor"
+mongo --authenticationDatabase "smart_bed" -u "sensor_user" -p "sensor"
 ```
