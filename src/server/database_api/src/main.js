@@ -16,7 +16,7 @@ app.use(_bodyParser.json());
 app.use(_bodyParser.urlencoded({ extended: true }));
 
 app.listen(port, () => {
-    console.log("Waiting for request ...");
+    console.log("database_api => Ready");
 });
 
 //============== MODELS AND SCHEMAS ===============

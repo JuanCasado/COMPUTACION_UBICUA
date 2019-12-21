@@ -9,4 +9,6 @@ app.use('/img', express.static('/web/public/img'));
 app.use('/src', express.static('/web/public/src'));
 app.use('/styles', express.static('/web/public/styles'));
 
-app.listen(port)
+app.listen(port, () => {
+  console.log("web => Ready");
+});
