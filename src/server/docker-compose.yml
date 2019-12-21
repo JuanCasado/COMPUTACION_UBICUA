@@ -14,3 +14,17 @@ services:
       - ./web/:/web
     ports:
       - 80:80
+  mongo:
+    container_name: mongo
+    image: mongo:4.2.2-bionic
+    restart: always
+    volumes: 
+      - ./mongo/setup:/docker-entrypoint-initdb.d
+      - ./mongo/data:/data/db
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+      MONGO_INITDB_DATABASE: smart_bed
+    command: mongod --auth
