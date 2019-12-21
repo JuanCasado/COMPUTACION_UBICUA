@@ -7,6 +7,8 @@ services:
       - ./database_api/:/database_api
     ports:
       - 8080:80
+    depends_on:
+      - "mongo"
   web:
     container_name: web
     build: ./web/
@@ -14,6 +16,9 @@ services:
       - ./web/:/web
     ports:
       - 80:80
+    depends_on:
+      - "mongo"
+      - "database_api"
   mongo:
     container_name: mongo
     image: mongo:4.2.2-bionic
