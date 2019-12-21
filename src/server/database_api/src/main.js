@@ -7,7 +7,7 @@ const _bodyParser = require("body-parser");
 // Connection and configuration.
 var app = _express();
 var port = 80;
-_mongoose.connect("mongodb://163.172.80.168:27018/smart_bed", {
+_mongoose.connect("mongodb://163.172.80.168:27017/smart_bed", {
     "user": "sensor_user",
     "pass": "sensor",
 });
