@@ -1,26 +1,31 @@
 
 function App() {
-  return (
-    <div className="centered App">
-      <div className="text-left">
-        <h1 className="text">Smart Bed</h1>
-        <p className="text">Ubiquitous Computing at UAH</p>
-      </div>
-      <div className="dropdown-divider"></div>
-      <div className="text-center">
-        <div className="small-margin">
-          <PresentationButton />
-        </div>
-        <div className="dropdown-divider"></div>
-        <div className="small-margin">
-          <StoreButton />
-        </div>
-        <div className="dropdown-divider"></div>
-        <div className="small-margin">
-          <LikeButton />
-        </div>
-        <div className="dropdown-divider"></div>
-      </div>
-    </div>
-  );
+	return (
+		<div className="centered App">
+			<div id="menu" className="start-menu">
+				<div>
+					<h1 className="main-title">Smart <b className="blue-title">Bed</b> </h1> 
+					<p className="sub-title">Ubiquitous Computing at UAH</p>
+				</div>
+				<div className="dropdown-divider"></div>
+					<div className="small-margin">
+						<ApplicationButton />
+				</div>
+				<div className="dropdown-divider"></div>
+				<div className="text-center">
+					<div className="small-margin">
+						<PresentationButton />
+					</div>
+					<div className="dropdown-divider"></div>
+					<div className="small-margin">
+						<StoreButton />
+					</div>
+					<div className="dropdown-divider"></div>
+					<div className="small-margin">
+						<LikeButton />
+					</div>
+				</div>
+			</div>
+		</div>
+	);
 }

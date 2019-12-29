@@ -7,11 +7,12 @@ class PresentationButton extends React.Component {
 
   render() {
     return (
-      <button className="btn btn-primary btn-lg"
+      <button className="btton btton-presentation"
               onClick={()=>{
                 window.open("http://163.172.80.168/presentation/index.htm")
               }}>
         Presentation
+        <i class="fas fa-play-circle tab"></i>
       </button>
     );
   }
