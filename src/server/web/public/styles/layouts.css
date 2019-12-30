@@ -9,7 +9,7 @@ a:not([href]):hover {
 }
 
 body {
-	background-image: url('../img/pattern-sleep.webp');
+	background-image: url('../img/pattern-sleep.png');
 	background-repeat: repeat;
   }
 .bg-loader{
