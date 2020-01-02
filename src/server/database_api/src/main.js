@@ -165,6 +165,7 @@ const TemperatureModel = _mongoose.model("temperature",{
 const UserModel = _mongoose.model("user",{
     userId:     {
         type: String,
+        unique : true,
         required: true
     },
     name: 
@@ -180,6 +181,7 @@ const UserModel = _mongoose.model("user",{
     mail:
     {
         type: String,
+        unique : true,
         required: true
     },
     passw:
