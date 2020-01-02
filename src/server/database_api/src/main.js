@@ -79,7 +79,7 @@ const HabitModel = _mongoose.model("habit",{
     },
     value: 
     {
-        type:  [Number],
+        type:  Number,
         required: true
     },
     created:
