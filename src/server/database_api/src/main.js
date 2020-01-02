@@ -6,7 +6,7 @@ const _bodyParser = require("body-parser");
 
 // Connection and configuration.
 var app = _express();
-var port = 80;
+var port = 8080;
 _mongoose.connect("mongodb://163.172.80.168:27017/smart_bed", {
     "user": "sensor_user",
     "pass": "sensor",
@@ -71,6 +71,15 @@ const FlexModel = _mongoose.model("flex",{
 const HabitModel = _mongoose.model("habit",{
     userId:     {
         type: String,
+        required: true
+    },
+    name:     {
+        type: String,
+        required: true
+    },
+    value: 
+    {
+        type:  [Number],
         required: true
     },
     created:
@@ -169,6 +178,11 @@ const UserModel = _mongoose.model("user",{
         required: true
     },
     mail:
+    {
+        type: String,
+        required: true
+    },
+    passw:
     {
         type: String,
         required: true
