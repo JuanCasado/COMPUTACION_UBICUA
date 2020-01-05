@@ -43,7 +43,7 @@ class Login extends React.Component {
             <h1 className="main-title">Smart <b className="blue-title">Bed</b> </h1> 
             <p className="sub-title">Improving your sleep</p>
           </div>
-          <h2 className="section-title">Login<b className="error-message"><i class="fas fa-exclamation-triangle"></i>  Error invalid login  </b> </h2>
+          <h2 className="section-title">Login<b className="error-message"><i className="fas fa-exclamation-triangle"></i>  Error invalid login  </b> </h2>
           <div className="dropdown-divider"></div>
           <h3 className="form-title">Username</h3>
           <input className="input-box" type="text" placeholder='Enter Username'  value={this.state.user} onChange={this.handleUser} required/>
@@ -55,8 +55,8 @@ class Login extends React.Component {
         </div>
       </form>);
   if (this.state.clicked) {
-    if (this.state.user==="prueba" && this.state.password ==="prueba"){
-        ReactDOM.render(<Bed/>, document.getElementById('root'));
+    if (this.state.user==="gato" && this.state.password ==="gato"){
+        ReactDOM.render(<Bed user={this.state.user}/>, document.getElementById('root'));
     } else{
       this.setState({ clicked: false });
       this.setState({ error: true });

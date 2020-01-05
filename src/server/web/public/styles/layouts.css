@@ -74,7 +74,12 @@ body {
 .tab{
   margin-left: 0.5vw;
 }
-
+.right-tab{
+  margin-right: 2vw;
+}
+.small-right-tab{
+  margin-right: 1vw;
+}
 .start-menu {
   font-family: 'Montserrat', sans-serif;
   min-width: 20vw;
@@ -91,6 +96,7 @@ body {
   font-family: 'Montserrat', sans-serif;
   min-height: 10vh;
   padding-bottom: 2vh;
+  margin-bottom: 2vh;
   min-width: 100vw;
   background-color: #32415B;
 }
@@ -116,6 +122,19 @@ body {
   padding: 0.8vw 1.6vw;
   border-radius: 0.3vw;
   font-size: 1.1vw;
+  transition-duration: 0.4s;
+}
+.small-btton {
+  border: none;
+  cursor: pointer;
+  font-family: 'Montserrat', sans-serif;
+  text-align: center;
+  text-decoration: none;
+  color: white;
+  display: inline-block;
+  padding: 0.5vw 1.2vw;
+  border-radius: 0.3vw;
+  font-size: 0.9vw;
   transition-duration: 0.4s;
 }
 .btton-presentation {
@@ -165,6 +184,78 @@ a {
 	border-radius: 0.6vw;
 	border: 0.15vw solid dodgerblue;
 }
+
+.input-box-dash{
+  min-width: 15vw;
+	background-color: white;
+	margin-bottom: 1vw;
+	border-radius: 0.6vw;
+	border: 0.15vw solid rgb(67, 85, 117);
+	padding: 0.2vw;
+	font-size: 1vw;
+	transition-duration: 0.4s;
+}
+.input-box-dash:focus{
+	outline: none;
+	background-color: white;
+	margin-bottom: 1vw;
+	border-radius: 0.6vw;
+	border: 0.15vw solid dodgerblue;
+}
+
+.progress {
+  margin-top: 2vh;
+  height: 4vh;}
+
+.bar-underweight{
+  width: 34%;
+}
+.bar-normal{
+  width: 16%;
+}
+.bar-overweight{
+  width: 10%;
+}
+.bar-obese{
+  width: 40%;
+}
+
+
+
+.switch input {
+  position: absolute;
+  opacity: 0;
+}
+
+.switch {
+  display: inline-block;
+  font-size: 20px; /* 1 */
+  height: 1em;
+  width: 2em;
+  background: gainsboro;
+  border-radius: 1em;
+}
+
+.switch div {
+  height: 1em;
+  width: 1em;
+  border-radius: 1em;
+  background: #FFF;
+  box-shadow: 0 0.1em 0.3em rgba(0,0,0,0.3);
+  -webkit-transition: all 300ms;
+     -moz-transition: all 300ms;
+          transition: all 300ms;
+}
+
+.switch input:checked + div {
+  background: dodgerblue;
+  -webkit-transform: translate3d(100%, 0, 0);
+     -moz-transform: translate3d(100%, 0, 0);
+          transform: translate3d(100%, 0, 0);
+}
+
+
+
 #heart {
   position: relative;
   width: 2vw;
@@ -262,7 +353,7 @@ a {
   }
   
   .main.chart-wrapper {
-    width: 96%;
+    width: 50%;
     height: 400px;
   }
   
@@ -274,7 +365,10 @@ a {
 
 
 @media screen and (max-width: 768px) {
-
+  .main.chart-wrapper {
+    width: 96%;
+    height: 400px;
+  }
   .sub.chart-wrapper {
     width: 96%;
   }
@@ -345,7 +439,16 @@ a {
     margin-top: 1vh;
     margin-bottom: 1vh;
   }
-
+  .input-box-dash{
+    min-width: 45vw;
+    border-radius: 1.5vw;
+    border: 0.3vw solid rgb(67, 85, 117);
+    padding: 0.4vw;
+    font-size: 3vw;
+    transition-duration: 0.4s;
+    margin-top: 1vh;
+    margin-bottom: 1vh;
+  }
 #heart {
   width: 4vw;
   height: 3.6vw;
