@@ -32,7 +32,7 @@ void loop(){
     Serial.print(DHT.humidity);
     Serial.print("%  ");
     Serial.print("temperatura: ");
-    Serial.print(DHT.temperature); 
+    Serial.print(DHT.temperature);
     Serial.println("C  ");
     
     delay(2000);

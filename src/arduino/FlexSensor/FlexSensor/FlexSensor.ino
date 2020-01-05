@@ -9,8 +9,7 @@ void setup() {
 }
 
 void loop() {
-  //printRaw();
-  //printRead();
+  flex_strip->updateHeatLine();
   printHeat();
   delay(1000);
 }

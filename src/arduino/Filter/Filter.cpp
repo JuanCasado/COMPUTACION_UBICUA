@@ -7,6 +7,9 @@ Filter::Filter(int len){
 
 void Filter::init() {
   this->data = (float*) malloc(this->len * sizeof(float));
+  for (int i = 0; i < this->len; ++i){
+    this->data[i] = 0;
+  }
 }
 
 float Filter::filter (float measure){
@@ -24,8 +27,8 @@ float Filter::filter (float measure){
 float Filter::lowPassFilter() {
   int divide_factor = this->len-2;
   float acc = 0;
-  float max = this->data[0];
-  float min = this->data[0];
+  float max = this->data[0]/divide_factor;
+  float min = this->data[0]/divide_factor;
   for (int i = 0; i < this->len; ++i){
     float value = this->data[i]/divide_factor;
     acc += value;
@@ -35,6 +38,7 @@ float Filter::lowPassFilter() {
       min = value;
     }
   }
-  acc -= min; acc -= max;
+  acc -= min;
+  acc -= max;
   return acc;
 }

@@ -1,19 +1,20 @@
+
 #include "WeightSensor.h"
 
-WeightSensor* weight_sensor = new WeightSensor ();
+WeightSensor* weight_sensor = new WeightSensor (22, 24);
 
 void setup() {
   Serial.begin(115200);
-  weight_sensor->init();  
+  weight_sensor->init();
+  pinMode(LED, OUTPUT);
 }
 
 void loop() {
-  printWeight();
-  delay(1000);
+  digitalWrite(LED, led_state);
+  Serial.println(printWeight());
 }
 
-void printWeight () {
-  Serial.print("Weight:");
-  Serial.print(weight_sensor->read());
-  Serial.println("");
+String printWeight () {
+  return String("\"Weight:\"") + 
+  String(weight_sensor->read());
 }

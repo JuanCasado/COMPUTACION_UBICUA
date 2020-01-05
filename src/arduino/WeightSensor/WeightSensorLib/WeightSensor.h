@@ -5,12 +5,13 @@
 
 class WeightSensor : public Sensor{
 public:
+  WeightSensor(int DOUT, int CLK);
   void init ();
   float rawRead();
   float read ();
 private:
-  const int DOUT = 3;
-  const int CLK = 2;
-  const HX711 scale;
-  const Filter *filter;
+  int DOUT;
+  int CLK;
+  HX711 scale;
+  Filter *filter;
 };

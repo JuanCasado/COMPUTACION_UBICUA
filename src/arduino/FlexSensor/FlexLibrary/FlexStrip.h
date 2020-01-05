@@ -3,7 +3,12 @@
 #include "FlexSensor.h"
 class FlexStrip {
   public:
-    FlexStrip(int sensor_amount, int* sensor_pin);
+    FlexStrip(int sensor_amount, int* sensor_pin, 
+              float voltage=5,
+              int resistor=10000,
+              int flex_resistance=4900,
+              int straight_resistance=5100,
+              int filter_len=4);
     void init();
 
     //Provides the amount of sensors
@@ -18,12 +23,15 @@ class FlexStrip {
     void rawRead(float* sensors);
 
     //Get heat function
+    float* updateHeatLine();
     float* getHeatLine();
     int heatSize();
 
   private:
     int len;
     FlexSensor** sensor;
+    void addValue (int index, float value);
+    void clear ();
 
     //Sensor measures are stored here to be processed
     int heat_len;
