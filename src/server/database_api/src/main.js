@@ -6,7 +6,7 @@ const _bodyParser = require("body-parser");
 
 // Connection and configuration.
 var app = _express();
-var port = 80;
+var port = 8080;
 _mongoose.connect("mongodb://163.172.80.168:27017/smart_bed", {
     "user": "sensor_user",
     "pass": "sensor",
@@ -27,6 +27,11 @@ const AlarmModel = _mongoose.model("alarm",{
         type: String,
         required: true
     },
+    active: 
+    {
+        type:  Boolean,
+        required: true
+    },
     time: 
     {
         type:  Number,
@@ -35,6 +40,11 @@ const AlarmModel = _mongoose.model("alarm",{
     days: 
     {
         type:  [Number],
+        required: true
+    },
+    duration: 
+    {
+        type:  Number,
         required: true
     },
     decibel: 
@@ -71,6 +81,15 @@ const FlexModel = _mongoose.model("flex",{
 const HabitModel = _mongoose.model("habit",{
     userId:     {
         type: String,
+        required: true
+    },    
+    name:     {
+        type: String,
+        required: true
+    },
+    value: 
+    {
+        type:  [Number],
         required: true
     },
     created:
@@ -156,6 +175,7 @@ const TemperatureModel = _mongoose.model("temperature",{
 const UserModel = _mongoose.model("user",{
     userId:     {
         type: String,
+        unique : true,
         required: true
     },
     name: 
@@ -169,6 +189,12 @@ const UserModel = _mongoose.model("user",{
         required: true
     },
     mail:
+    {
+        type: String,
+        unique : true,
+        required: true
+    },
+    passw:
     {
         type: String,
         required: true
@@ -258,6 +284,17 @@ app.put("/alarm/:id", async (request, response, next) => {
 });
 
 
+// Delete a record in the database.
+app.delete("/alarm/:id", async (request, response, next) => {
+    try {
+        var result = await AlarmModel.deleteOne({ _id: request.params.id }).exec();
+        response.send(result);
+    } catch (error) {
+        response.status(500).send(error);
+    }
+});
+
+
 //---------- Flex REST API with CRUD. ----------
 
 // Add a new register to the collection.
@@ -308,6 +345,17 @@ app.put("/flex/:id", async (request, response, next) => {
         var record = await FlexModel.findById(request.params.id).exec();
         record.set(request.body);
         var result = await record.save();
+        response.send(result);
+    } catch (error) {
+        response.status(500).send(error);
+    }
+});
+
+
+// Delete a record in the database.
+app.delete("/flex/:id", async (request, response, next) => {
+    try {
+        var result = await FlexModel.deleteOne({ _id: request.params.id }).exec();
         response.send(result);
     } catch (error) {
         response.status(500).send(error);
@@ -505,6 +553,16 @@ app.put("/noise/:id", async (request, response, next) => {
     }
 });
 
+// Delete a record in the database.
+app.delete("/noise/:id", async (request, response, next) => {
+    try {
+        var result = await NoiseModel.deleteOne({ _id: request.params.id }).exec();
+        response.send(result);
+    } catch (error) {
+        response.status(500).send(error);
+    }
+});
+
 //---------- Position REST API with CRUD. ----------
 
 // Add a new register to the collection.
@@ -692,6 +750,15 @@ app.put("/user/:id", async (request, response, next) => {
         response.status(500).send(error);
     }
 });
+// Delete a record in the database.
+app.delete("/user/:id", async (request, response, next) => {
+    try {
+        var result = await UserModel.deleteOne({ _id: request.params.id }).exec();
+        response.send(result);
+    } catch (error) {
+        response.status(500).send(error);
+    }
+});
 
 //---------- Weight REST API with CRUD. ----------
 
@@ -743,6 +810,16 @@ app.put("/weight/:id", async (request, response, next) => {
         var record = await WeightModel.findById(request.params.id).exec();
         record.set(request.body);
         var result = await record.save();
+        response.send(result);
+    } catch (error) {
+        response.status(500).send(error);
+    }
+});
+
+// Delete a record in the database.
+app.delete("/weight/:id", async (request, response, next) => {
+    try {
+        var result = await WeightModel.deleteOne({ _id: request.params.id }).exec();
         response.send(result);
     } catch (error) {
         response.status(500).send(error);
