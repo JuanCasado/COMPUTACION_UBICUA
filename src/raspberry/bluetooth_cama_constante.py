@@ -4,6 +4,7 @@ import serial
 import time
 import json
 import requests
+import sys
 
 conectado = 0
 url = "http://172.22.38.145:8080"
