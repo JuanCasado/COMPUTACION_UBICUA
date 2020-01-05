@@ -7,11 +7,12 @@ class Recivers (Enum):
 	WEIGHT = 'weight'
 	TEMPERATURE = 'temperature'
 	HUMIDITY = 'humidity'
-	SOUND = 'sound'
+	SOUND = 'noise'
 	LIGHT = 'light'
+	POSITION = 'position'
 
 class RestSender:
-	def __init__(self, url= 'http://172.22.38.145:8080/'):
+	def __init__(self, url= 'http://163.172.80.168:8080/'):
 		self.url = url
 		
 	def send(self, content, to):
