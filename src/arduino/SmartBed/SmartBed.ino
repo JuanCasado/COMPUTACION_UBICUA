@@ -28,6 +28,7 @@ Switch *alarm_switch = new Switch(43);
 void setup() {
   Serial.begin(SERIAL_BAUDS);
   Serial1.begin(SERIAL_BAUDS);
+  Serial3.begin(SERIAL_BAUDS);
   flex_strip->init();
   weight_sensor->init();
   ambient_sensor->init();
@@ -47,7 +48,9 @@ void loop () {
   float sound = sound_sensor->read();
   float light = light_sensor->read();
   bool make_sound = alarm_switch->read();
-  Serial.println(getJSON(weight, temperature, humidity, sound, light, flex_strip, make_sound));
+  String json = getJSON(weight, temperature, humidity, sound, light, flex_strip, make_sound);
+  Serial.println(json);
+  Serial3.println(json);
   switch (switch_strip->read()) {
     case 0: sendBCD(weight);      break;
     case 1: sendBCD(temperature); break;
