@@ -3,6 +3,7 @@ from WiredConnection import WiredConnection
 from RestSender import RestSender, Recivers
 from RestReciver import RestReciver
 from JSONFormater import formatToJsonMap, DataType
+from Sounds import Songs, playSong
 
 if __name__=='__main__':
 	device_name = 'SmartBed1'
@@ -20,8 +21,10 @@ if __name__=='__main__':
 			rest_sender.send(formated_data[DataType.POSITION.value], Recivers.POSITION.value)
 			rest_sender.send(formated_data[DataType.TEMPERATURE.value], Recivers.TEMPERATURE.value)
 			rest_sender.send(formated_data[DataType.HUMIDITY.value], Recivers.HUMIDITY.value)
-			rest_sender.send(formated_data[DataType.SOUND.value], Recivers.SOUND.value)
+			rest_sender.send(formated_data[DataType.NOISE.value], Recivers.NOISE.value)
 			rest_sender.send(formated_data[DataType.LIGHT.value], Recivers.LIGHT.value)
 			rest_sender.send(formated_data[DataType.WEIGHT.value], Recivers.WEIGHT.value)
+			if formated_data[DataType.SOUND.value]:
+				playSong(Songs.EXPLOSION.value)
 		
 		

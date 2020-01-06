@@ -9,7 +9,7 @@ class Recivers (Enum):
 	WEIGHT = 'weight'
 	TEMPERATURE = 'temperature'
 	HUMIDITY = 'humidity'
-	SOUND = 'noise'
+	NOISE = 'noise'
 	LIGHT = 'light'
 	POSITION = 'position'
 	USER = 'user'

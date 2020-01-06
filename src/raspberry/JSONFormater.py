@@ -9,10 +9,11 @@ class DataType(Enum):
 	FLEX = 'Flex'
 	TEMPERATURE = 'Temperature'
 	HUMIDITY = 'Humidity'
-	SOUND = 'Sound'
+	NOISE = 'Noise'
 	LIGHT = 'Light'
 	WEIGHT = 'Weight'
 	POSITION = 'Position'
+	SOUND = 'Sound'
 
 def formatToJsonMap (data, device_name):
 	timestamp = datetime.datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%S')
@@ -24,9 +25,10 @@ def formatToJsonMap (data, device_name):
 		output_map[DataType.POSITION.value] = formatPosition (json_data[DataType.FLEX.value], timestamp, device_name)
 		output_map[DataType.TEMPERATURE.value] = sensorFormat (json_data[DataType.TEMPERATURE.value], timestamp, device_name)
 		output_map[DataType.HUMIDITY.value] = sensorFormat (json_data[DataType.HUMIDITY.value], timestamp, device_name)
-		output_map[DataType.SOUND.value] = sensorFormat (json_data[DataType.SOUND.value], timestamp, device_name)
+		output_map[DataType.NOISE.value] = sensorFormat (json_data[DataType.NOISE.value], timestamp, device_name)
 		output_map[DataType.LIGHT.value] = sensorFormat (json_data[DataType.LIGHT.value], timestamp, device_name)	
 		output_map[DataType.WEIGHT.value] = sensorFormat (json_data[DataType.WEIGHT.value], timestamp, device_name)
+		output_map[DataType.SOUND.value] = int(json_data[DataType.SOUND.value])
 	except json.decoder.JSONDecodeError:
 		pass
 	return output_map
