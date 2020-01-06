@@ -26,8 +26,10 @@ SwitchStrip *switch_strip = new SwitchStrip(5, switch_pins);
 Switch *alarm_switch = new Switch(43);
 
 #define START_ALARM_COUNTDOWN 10
+#define CICLES_TO_SKIP 3
 int alarm_countdown = START_ALARM_COUNTDOWN;
 bool sound_to_send = false;
+int cicles = 0;
 
 void setup() {
   Serial.begin(SERIAL_BAUDS);
@@ -57,19 +59,26 @@ void loop () {
   Serial3.println(json);
   if (make_sound){
     sendBCD(alarm_countdown);
-    if (alarm_countdown <= 0){
-      sound_to_send = true;
+    if (cicles >= CICLES_TO_SKIP){
+      cicles = 0;
+      if (alarm_countdown <= 0){
+        sound_to_send = true;
+      }else{
+        --alarm_countdown;
+      }
     }else{
-      --alarm_countdown;
+      ++cicles;
     }
   }else{
     sound_to_send = false;
+    alarm_countdown = START_ALARM_COUNTDOWN;
     switch (switch_strip->read()) {
       case 0: sendBCD(weight);      break;
       case 1: sendBCD(temperature); break;
       case 2: sendBCD(humidity);    break;
       case 3: sendBCD(noise);       break;
       case 4: sendBCD(light);       break;
+      default: sendBCD(0);          break;
     }
   }
   led_strip->setValue(heat_line);
@@ -78,7 +87,11 @@ void loop () {
 
 void sendBCD(float value) {
   Serial1.write('S');
-  if (value < 10){
+  if (value <= 0){
+    Serial1.print(0);
+    Serial1.print(0);
+  }
+  else if (value < 10){
     Serial1.print(0);
   }
   Serial1.print(value,1);
