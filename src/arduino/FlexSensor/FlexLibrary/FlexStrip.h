@@ -6,8 +6,8 @@ class FlexStrip {
     FlexStrip(int sensor_amount, int* sensor_pin, 
               float voltage=5,
               int resistor=10000,
-              int flex_resistance=4900,
-              int straight_resistance=5100,
+              int flex_resistance=4700,
+              int straight_resistance=4600,
               int filter_len=4);
     void init();
 

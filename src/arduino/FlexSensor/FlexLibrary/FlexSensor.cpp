@@ -20,6 +20,14 @@ float FlexSensor::read(){
 	float flex_voltage = analog_voltage * this->voltage / 1023.0;
 	float flex_resistor = this->resistor * (this->voltage / flex_voltage - 1.0);
 	//return flex_resistor;
+	if (this->flex_resistance > flex_resistor){							//FLEX RESISTANCE IS LOWEST
+		this->flex_resistance = flex_resistor;
+	} else if (this->straight_resistance < flex_resistor){	//STRAIGHT RESISTANCE IS BIGEST
+		this->straight_resistance = flex_resistor;
+	}else {																									//REMOVE OUTLIERS
+		++this->flex_resistance;
+		--this->straight_resistance;
+	}
 	float angle = map(constrain(flex_resistor, this->flex_resistance, this->straight_resistance), this->flex_resistance, this->straight_resistance, 100, 0);
 	return this->filter->filter(angle);
 }

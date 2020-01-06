@@ -12,6 +12,9 @@ public:
 private:
   int DOUT;
   int CLK;
+  float offset;
+  int offset_counter;
+  int offset_counter_target;
   HX711 scale;
   Filter *filter;
 };
