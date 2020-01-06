@@ -25,6 +25,10 @@ LedStrip *led_strip = new LedStrip(flex_strip->heatSize(), led_pins);
 SwitchStrip *switch_strip = new SwitchStrip(5, switch_pins);
 Switch *alarm_switch = new Switch(43);
 
+#define START_ALARM_COUNTDOWN 10
+int alarm_countdown = START_ALARM_COUNTDOWN;
+bool sound_to_send = false;
+
 void setup() {
   Serial.begin(SERIAL_BAUDS);
   Serial1.begin(SERIAL_BAUDS);
@@ -45,18 +49,28 @@ void loop () {
   float weight = weight_sensor->read();
   float temperature = ambient_sensor->readTemperature();
   float humidity = ambient_sensor->readHumidity();
-  float sound = sound_sensor->read();
+  float noise = sound_sensor->read();
   float light = light_sensor->read();
   bool make_sound = alarm_switch->read();
-  String json = getJSON(weight, temperature, humidity, sound, light, flex_strip, make_sound);
+  String json = getJSON(weight, temperature, humidity, noise, light, flex_strip, sound_to_send);
   Serial.println(json);
   Serial3.println(json);
-  switch (switch_strip->read()) {
-    case 0: sendBCD(weight);      break;
-    case 1: sendBCD(temperature); break;
-    case 2: sendBCD(humidity);    break;
-    case 3: sendBCD(sound);        break;
-    case 4: sendBCD(light);       break;
+  if (make_sound){
+    sendBCD(alarm_countdown);
+    if (alarm_countdown <= 0){
+      sound_to_send = true;
+    }else{
+      --alarm_countdown;
+    }
+  }else{
+    sound_to_send = false;
+    switch (switch_strip->read()) {
+      case 0: sendBCD(weight);      break;
+      case 1: sendBCD(temperature); break;
+      case 2: sendBCD(humidity);    break;
+      case 3: sendBCD(noise);       break;
+      case 4: sendBCD(light);       break;
+    }
   }
   led_strip->setValue(heat_line);
   loop_led->changeState();
@@ -64,15 +78,18 @@ void loop () {
 
 void sendBCD(float value) {
   Serial1.write('S');
+  if (value < 10){
+    Serial1.print(0);
+  }
   Serial1.print(value,1);
   Serial1.write('E');
 }
 
-String getJSON (float weight, float temperature, float humidity, float sound, float light, FlexStrip *flex_strip, bool make_sound){
+String getJSON (float weight, float temperature, float humidity, float noise, float light, FlexStrip *flex_strip, bool make_sound){
   return String("{") +
     printHeat (flex_strip) + String(",") +
     printAmbient (temperature, humidity) + String(",") +
-    printSound (sound) + String(",") +
+    printNoise (noise) + String(",") +
     printLight (light) + String(",") +
     printSound (make_sound) + String(",") +
     printWeight (weight) +
@@ -110,9 +127,9 @@ String printAmbient (float temperature, float humidity) {
   String(humidity);
 }
 
-String printSound (float sound) {
-  return String("\"Sound\":") + 
-  String(sound);
+String printNoise (float noise) {
+  return String("\"Noise\":") + 
+  String(noise);
 }
 
 String printLight (float light) {
