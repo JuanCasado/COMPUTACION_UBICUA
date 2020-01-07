@@ -6,7 +6,7 @@ class Dashboard extends React.Component {
     super(props);
 
     // Define states to use in the web.
-    this.state = { time: 0, days: [0, 0, 0, 0, 0, 0, 0], alarms: this.props.alarms, user: "user", height: 170, weight: 60, bmi: <p> </p>, bmiResult: <p> </p>, positionImage: "../img/back.jpg", positionText: "Oops! We don't have any record yet", lastPosition: "", alarmResult: <p> </p> };
+    this.state = { time: 0, days: [0, 0, 0, 0, 0, 0, 0], alarms: this.props.alarms, user: "user", height: 170, weight: 60, diffWeight: 0, bmi: <p> </p>, bmiResult: <p> </p>, positionImage: "../img/empty.png", positionText: "Oops! We don't have any record yet", lastPosition: "", alarmResult: <p> </p> };
 
     // Bind all functions.
     this.handleHeight = this.handleHeight.bind(this);
@@ -27,10 +27,11 @@ class Dashboard extends React.Component {
   tempRef = React.createRef();
   noiseRef = React.createRef();
   humidityRef = React.createRef();
-
+  weightRef = React.createRef();
   componentDidMount() {
     // Create graphs.
     this.sleepPolar();
+    this.weightLine()
     this.tempLine();
     this.noiseBar();
     this.humidityBar();
@@ -40,22 +41,33 @@ class Dashboard extends React.Component {
     // Get last weight from API Rest.
     const weights = this.props.weights.map((weight) => weight.value);
     this.setState({ weight: weights[weights.length - 1] });
-
+    if (weights[weights.length - 7] !== undefined)
+      this.setState({ diffWeight: (weights[weights.length - 1] - weights[weights.length - 7]) });
     // Get last position from API Rest.
     const positions = this.props.positions.map((position) => position.position);
     var last = positions[positions.length - 1];
     this.setState({ lastPosition: last });
-
+    const sideMessage ="You are sleeping in the best position, keep going! It makes you snooze less to have a better sleep, but if you have some forms of arthritis, sleeping in the side position may make you sore";
+    const backMessage ="It is not a bad position, but you should try side one. It can produce back pain (even intensify it), so this is not the best sleep position for lower back pain. If you suffer from snoring or sleep apnea, sleeping on your back may aggravate these conditions as well. ";
     // Show the data, text and image, for that last position
-    if (last === "back") {
-      this.setState({ positionImage: "../img/back.jpg" });
-      this.setState({ positionText: "You are sleeping in your back, it is not a bad position, but you should try side one" });
-    } else if (last === "side") {
-      this.setState({ positionImage: "../img/side.jpg" });
-      this.setState({ positionText: "You are sleeping in the best position, keep going!" });
-    } else if (last === "stomach") {
-      this.setState({ positionImage: "../img/stomach.jpg" });
-      this.setState({ positionText: "You are sleeping in the worst position, try a new one!" });
+    if (last === "Right-Spread") {
+      this.setState({ positionImage: "../right-spread.jpg" });
+      this.setState({ positionText:  sideMessage});
+    } else if (last === "Left-Spread") {
+      this.setState({ positionImage: "../img/left-spread.jpg" });
+      this.setState({ positionText: sideMessage});
+    } else if (last === "Right-NotSpread") {
+      this.setState({ positionImage: "../img/right-notspread.jpg" });
+      this.setState({ positionText: sideMessage });
+    } else if (last === "Left-NotSpread") {
+      this.setState({ positionImage: "../img/left-notspread.jpg" });
+      this.setState({ positionText: sideMessage});
+    } else if (last === "Center-Spread") {
+      this.setState({ positionImage: "../img/center-spread.jpg" });
+      this.setState({ positionText:  backMessage});
+    } else if (last === "Center-NotSpread") {
+      this.setState({ positionImage: "../img/center-notspread.jpg" });
+      this.setState({ positionText: backMessage });
     }
   }
 
@@ -109,7 +121,7 @@ class Dashboard extends React.Component {
     var created = new Date();
     // Alarm 5 seconds after creation.
     var alarm = (this.state.time).split(":");
-    var seconds = parseInt(alarm[0])*3600+(alarm[1])*60;
+    var seconds = parseInt(alarm[0]) * 3600 + (alarm[1]) * 60;
     var decibel = 20;
     var duration = 10;
     var active = true;
@@ -170,14 +182,53 @@ class Dashboard extends React.Component {
   };
 
   // Temperature line chart.
+  weightLine = () => {
+    // Get the data of temperature from API.
+    const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    const weightsDate = this.props.weights.map((weight) => days[new Date(weight.captured).getDay()]);
+    const weights = this.props.weights.map((weight) => weight.value);
+    console.log("weights")
+    console.log(this.state.diffWeight)
+    var weightData = {
+      labels: weightsDate.slice(-7),
+      datasets: [{
+        label: "Weight in kilograms",
+        // Get last 24 values.
+        data: weights.slice(-7),
+        fill: 'origin',
+        backgroundColor: ["#d45087"],
+        pointRadius: 4,
+        borderColor: ["#d45087"],
+        borderWidth: 1,
+        lineTension: 0
+      }]
+    };
+
+    // Chart with Chart.js.
+    this.weightChart = new Chart(this.weightRef.current, {
+      type: 'line',
+      options: {
+        responsive: true,
+        title: {
+          display: true,
+          text: 'Weights'
+        },
+        maintainAspectRatio: false,
+      },
+      data: weightData
+    });
+  }
+
+
+  // Temperature line chart.
   tempLine = () => {
     // Get the data of temperature from API.
     const temperatures = this.props.temperatures.map((temperature) => temperature.value);
     console.log("temperature")
     console.log(temperatures.slice(-24))
-
+    const temperaturesTimes = this.props.temperatures.map((temperature) => new Date(temperature.captured).getHours()+":00");
     var temperatureData = {
-      labels: ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"],
+      labels: temperaturesTimes.slice(-24),
       datasets: [{
         label: "Temperature in celsius",
         // Get last 24 values.
@@ -252,10 +303,11 @@ class Dashboard extends React.Component {
   humidityBar = () => {
     // Get the data of humidity from API.
     const humidities = this.props.humidities.map((humidity) => humidity.value);
+    const humiditiesTimes = this.props.humidities.map((humidity) => new Date(humidity.captured).getHours()+":00");
     console.log("humidities")
     console.log(humidities.slice(-24))
     var humiditiesData = {
-      labels: ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"],
+      labels: humiditiesTimes.slice(-24),
       datasets: [{
         label: "Humidity percentage",
         // Get last 24 values.
@@ -325,10 +377,11 @@ class Dashboard extends React.Component {
   noiseBar = () => {
     // Get the data of noise from API.
     const noises = this.props.noises.map((noise) => noise.value);
+    const noisesTimes = this.props.noises.map((noise) => new Date(noise.captured).getHours()+":00");
     console.log("noises")
     console.log(noises.slice(-24))
     var noiseData = {
-      labels: ["00:00", "01:00", "02:00", "03:00", "04:00", "05:00", "06:00", "07:00", "08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00", "23:00"],
+      labels: noisesTimes.slice(-24),
       datasets: [{
         label: "Sound decibel",
         // Get last 24 values.
@@ -384,7 +437,7 @@ class Dashboard extends React.Component {
           <li className={alarm.days[5] === 1 ? "list-group-item active" : "list-group-item"}>Sat.</li>
           <li className={alarm.days[6] === 1 ? "list-group-item active" : "list-group-item"}>Sun.</li>
         </div>
-        <button type="button" class="btn btn-danger mx-3 mt-2" onClick={() => this.removeAlarm(alarm._id)} >Delete</button>
+        <button type="button" class="btn btn-danger mx-3 mt-2 btton-fix" onClick={() => this.removeAlarm(alarm._id)} >Delete</button>
       </div>
     );
     this.setState({ alarmResult: result }), this.render();
@@ -461,87 +514,99 @@ class Dashboard extends React.Component {
           <h1 className="main-title">Smart <b className="blue-title">Bed</b> </h1>
           <p className="sub-title">Ubiquitous Computing at UAH</p>
         </div>
-        <div className="row">
-          <div className="main chart-wrapper">
-            <canvas ref={this.humidityRef}  ></canvas>
+        <div class="col-md-12 main-fix">
+          <div className="row">
+            <div className="col-md-5 sub chart-wrapper">
+              <canvas ref={this.weightRef}  ></canvas>
+            </div>
+            <div className="card col-md-6">
+              <div className="row no-gutters">
+                <div className="card-body">
+                  <h3 className="card-title">Weight and BMI</h3>
+                  <form onSubmit={this.handleSubmit}>
+                    <div >
+                      <div>
+                        <h4 className="card-text">
+                          <i className="fas fa-weight small-right-tab"></i>Your weight: <b className="blue-title">{this.state.weight + " Kg"}</b>
+                          <p class={(this.state.diffWeight < 0) ? "d-inline ml-3 text-success" : "d-inline ml-3 text-danger"}>{this.state.diffWeight + " Kg (in a week)"}</p>
+                          </h4>
+                        <h4 className="card-text">Your body mass index: <b className="blue-title">{this.state.bmi}</b></h4>
+                        <input className="input-box-dash right-tab" type="number" placeholder='Enter your height in cm' min="100" max="210" onChange={this.handleHeight} />
+                        <button className="btton btton-presentation" type="submit" >Calculate</button>
+                      </div>
+                    </div>
+                  </form>
+                  <div className="progress">
+                    <div className="progress-bar bg-warning bar-underweight" role="progressbar" >Underweight</div>
+                    <div className="progress-bar bg-success bar-normal" role="progressbar">Normal</div>
+                    <div className="progress-bar bg-warning bar-overweight" role="progressbar" >Overweight</div>
+                    <div className="progress-bar bg-danger bar-obese" role="progressbar" >Obese</div>
+                  </div>
+                  {this.state.bmiResult}
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="card col-md-5">
-            <div className="row no-gutters">
+          <div className="row mx-0">
+            <div className="card col-md-6 ">
+              <div className="row no-gutters">
+                <div className="col-md-3 ">
+                  <img src={this.state.positionImage} className="card-img" alt="sleep-position"></img>
+                  <p className="card-text text-center"><small className="text-muted">Created by pikisuperstar</small></p>
+                </div>
+                <div className="col-md-8">
+                  <div className="card-body">
+                    <h3 className="card-title">Sleep position: <b className="blue-title">{this.state.lastPosition}</b></h3>
+                    <p className="card-text">{this.state.positionText}</p>
+                    <p className="card-text"><small className="text-muted">Updated last day</small></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-5  sub chart-wrapper">
+              <canvas ref={this.sleepRef}></canvas>
+            </div>
+          </div>
+          <div class="row">
+            <div className="col-md-5 card sub chart-wrapper">
+              <canvas ref={this.humidityRef}></canvas>
+            </div>
+            <div className="col-md-6 card sub chart-wrapper">
+              <canvas ref={this.tempRef}></canvas>
+            </div>
+          </div>
+          <div className="row mx-0">
+            <div className="col-md-6 sub chart-wrapper">
+              <canvas ref={this.noiseRef}></canvas>
+            </div>
+            <div className="card col-md-5 ">
               <div className="card-body">
-                <h3 className="card-title">Weight and BMI</h3>
-                <form onSubmit={this.handleSubmit}>
+                <div class="row">
+                  <h3 className="card-title">Alarms</h3>
+                  <button className="small-btton btton-login ml-3" onClick={this.testAlarm}>Test alarm</button></div>
+
+                <form onSubmit={this.handleNewAlarm}>
                   <div >
                     <div>
-                      <h4 className="card-text"><i className="fas fa-weight small-right-tab"></i>Your weight: <b className="blue-title">{this.state.weight}</b></h4>
-                      <h4 className="card-text">Your body mass index: <b className="blue-title">{this.state.bmi}</b></h4>
-                      <input className="input-box-dash right-tab" type="number" placeholder='Enter your height in cm' min="100" max="210" onChange={this.handleHeight} />
-                      <button className="btton btton-presentation" type="submit" >Calculate</button>
+                      <h4 className="card-text ">Days</h4>
+                      <div className="list-group list-group-horizontal-xl">
+                        <button type="button" className={this.state.days[0] === 1 ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action"} onClick={() => this.handleDays(0)}>Mon.</button>
+                        <button type="button" className={this.state.days[1] === 1 ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action"} onClick={() => this.handleDays(1)}>Tue.</button>
+                        <button type="button" className={this.state.days[2] === 1 ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action"} onClick={() => this.handleDays(2)}>Wed.</button>
+                        <button type="button" className={this.state.days[3] === 1 ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action"} onClick={() => this.handleDays(3)}>Thu.</button>
+                        <button type="button" className={this.state.days[4] === 1 ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action"} onClick={() => this.handleDays(4)}>Fri.</button>
+                        <button type="button" className={this.state.days[5] === 1 ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action"} onClick={() => this.handleDays(5)}>Sat.</button>
+                        <button type="button" className={this.state.days[6] === 1 ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action"} onClick={() => this.handleDays(6)}>Sun.</button>
+                      </div>
+                      <h4 className="card-text">Hour</h4>
+                      <input type="time" className="input-box-dash right-tab" required onChange={this.handleTime}></input>
+                      <button className="btton btton-presentation" type="submit" >Add alarm</button>
                     </div>
                   </div>
                 </form>
-                <div className="progress">
-                  <div className="progress-bar bg-warning bar-underweight" role="progressbar" >Underweight</div>
-                  <div className="progress-bar bg-success bar-normal" role="progressbar">Normal</div>
-                  <div className="progress-bar bg-warning bar-overweight" role="progressbar" >Overweight</div>
-                  <div className="progress-bar bg-danger bar-obese" role="progressbar" >Obese</div>
-                </div>
-                {this.state.bmiResult}
+                <h4 className="card-text">Created</h4>
+                {this.state.alarmResult}
               </div>
-            </div>
-          </div>
-        </div>
-        <div className="sub chart-wrapper">
-          <canvas ref={this.tempRef}></canvas>
-        </div>
-        <div className="sub chart-wrapper">
-          <canvas ref={this.noiseRef}></canvas>
-        </div>
-        <div className="sub chart-wrapper">
-          <canvas ref={this.sleepRef}></canvas>
-        </div>
-        <div className="row mx-0">
-          <div className="card col-md-5 ">
-            <div className="row no-gutters">
-              <div className="col-md-3 ">
-                <img src={this.state.positionImage} className="card-img" alt="sleep-position"></img>
-                <p className="card-text text-center"><small className="text-muted">Created by pikisuperstar - www.freepik.com</small></p>
-              </div>
-              <div className="col-md-8">
-                <div className="card-body">
-                  <h3 className="card-title">Sleep position: <b className="blue-title">{this.state.lastPosition}</b></h3>
-                  <p className="card-text">{this.state.positionText}</p>
-                  <p className="card-text"><small className="text-muted">Updated last day</small></p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="card col-md-1"></div>
-          <div className="card col-md-5 ">
-            <div className="card-body">
-              <div class="row">              <h3 className="card-title">Alarms</h3>
-                <button className="small-btton btton-login ml-3" onClick={this.testAlarm}>Test alarm</button></div>
-
-              <form onSubmit={this.handleNewAlarm}>
-                <div >
-                  <div>
-                    <h4 className="card-text ">Days</h4>
-                    <div className="list-group list-group-horizontal-xl">
-                      <button type="button" className={this.state.days[0] === 1 ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action"} onClick={() => this.handleDays(0)}>Mon.</button>
-                      <button type="button" className={this.state.days[1] === 1 ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action"} onClick={() => this.handleDays(1)}>Tue.</button>
-                      <button type="button" className={this.state.days[2] === 1 ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action"} onClick={() => this.handleDays(2)}>Wed.</button>
-                      <button type="button" className={this.state.days[3] === 1 ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action"} onClick={() => this.handleDays(3)}>Thu.</button>
-                      <button type="button" className={this.state.days[4] === 1 ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action"} onClick={() => this.handleDays(4)}>Fri.</button>
-                      <button type="button" className={this.state.days[5] === 1 ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action"} onClick={() => this.handleDays(5)}>Sat.</button>
-                      <button type="button" className={this.state.days[6] === 1 ? "list-group-item list-group-item-action active" : "list-group-item list-group-item-action"} onClick={() => this.handleDays(6)}>Sun.</button>
-                    </div>
-                    <h4 className="card-text">Hour</h4>
-                    <input type="time" className="input-box-dash right-tab" required onChange={this.handleTime}></input>
-                    <button className="btton btton-presentation" type="submit" >Add alarm</button>
-                  </div>
-                </div>
-              </form>
-              <h4 className="card-text">Created</h4>
-              {this.state.alarmResult}
             </div>
           </div>
         </div>

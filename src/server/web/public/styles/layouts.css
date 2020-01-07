@@ -353,20 +353,61 @@ a {
   }
   
   .main.chart-wrapper {
-    width: 50%;
+    width: 35%;
     height: 400px;
   }
-  
-  .sub.chart-wrapper {
-    width: 29%;
-    height: 300px;
+  .weight-result{
+    text-align: center;
+    width: 15%;
+  }
+  .weight{
+    width: 9vw;
+    padding-top: 3vh;
+    padding-bottom: 3vh;
+    text-align: center;
+    font-size: 1.2vw;
+    border-radius: 2vw;
+    color: white;
+  }
+  .good{
+    background-color: #28a745;
+    border: 0.2vw solid #1b7931;
+  }
+  .bad{
+    background-color: #dc3545;
+    border: 0.2vw solid #922530;
   }
 
-
+  .sub.chart-wrapper {
+    height: 400px;
+  }
+  .btton-fix{
+    max-height: 4vh;
+  }
+  .main-fix{
+    padding-left: 10vw;
+  }
 
 @media screen and (max-width: 768px) {
+
+
+  .small-btton {
+    border-radius: 1vw;
+    font-size: 2vw;
+  }
+  .weight{
+    width: 9vw;
+    padding-top: 3vh;
+    padding-bottom: 3vh;
+    text-align: center;
+    font-size: 2.5vw;
+    border-radius: 2vw;
+    color: white;
+    margin: 3vw;
+  }
+  
   .main.chart-wrapper {
-    width: 96%;
+    width: 75%;
     height: 400px;
   }
   .sub.chart-wrapper {
