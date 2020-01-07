@@ -128,7 +128,7 @@ class Dashboard extends React.Component {
     console.log(decibel)
 
     // POST call to create the alarm
-    fetch('http://localhost:8080/alarm/', {
+    fetch('http://163.172.80.168:8080/alarm/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -443,7 +443,7 @@ class Dashboard extends React.Component {
     this.setState({ alarmResult: result }), this.render();
   };
   removeAlarm(alarm) {
-    fetch('http://localhost:8080/alarm/' + alarm, {
+    fetch('http://163.172.80.168:8080/alarm/' + alarm, {
       method: 'DELETE',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ _id: alarm })
@@ -451,7 +451,7 @@ class Dashboard extends React.Component {
     this.getAlarms();
   }
   getAlarms() {
-    fetch("http://localhost:8080/alarms/")
+    fetch("http://163.172.80.168:8080/alarms/")
       .then(res => res.json())
       .then((data) => {
         this.setState({ alarms: data });
@@ -464,7 +464,7 @@ class Dashboard extends React.Component {
   }
 
   handleActive(alarm, alarmActive) {
-    fetch('http://localhost:8080/alarm/' + alarm, {
+    fetch('http://163.172.80.168:8080/alarm/' + alarm, {
       method: 'PUT',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ active: !alarmActive })
@@ -486,7 +486,7 @@ class Dashboard extends React.Component {
     console.log(decibel)
 
     // POST call to create the alarm
-    fetch('http://localhost:8080/alarm/', {
+    fetch('http://163.172.80.168:8080/alarm/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
