@@ -55,7 +55,7 @@ def formatPosition (data, timestamp, device_name):
 	else:
 		position = 'Center'
 	#Calculate style
-	if sum(data) > 0.45*len(data):
+	if sum(data) > 45*len(data):
 		style = 'Spread'
 	else:
 		style = 'NotSpread'

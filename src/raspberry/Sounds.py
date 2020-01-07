@@ -8,5 +8,5 @@ class Songs(Enum):
 	EXPLOSION = 'explosion.mp3'
 
 def playSong (song):
-	play(AudioSegment.from_file('./sounds'+song, format='mp3'))
+	play(AudioSegment.from_file('./sounds/'+song, format='mp3'))
 	
