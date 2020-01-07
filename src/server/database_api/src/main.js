@@ -767,6 +767,20 @@ app.delete("/user/:id", async (request, response, next) => {
     }
 });
 
+// Login call
+app.get('/login/:id/:pass', async (request, response, next) => {
+    try {
+        var record = await UserModel.find({userId:request.params.id,passw:request.params.pass}).exec()
+        if (record === undefined){
+            response.status(400).send(error);
+        } else {
+            response.send(record);
+        }
+    } catch (error) {
+        response.status(500).send(error);
+    }
+});
+
 //---------- Weight REST API with CRUD. ----------
 
 // Add a new register to the collection.
