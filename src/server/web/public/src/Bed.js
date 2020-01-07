@@ -2,7 +2,7 @@
 class Bed extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { api:'http://lvh.me:8080/',loaded: false, user: "", noises: [], temperatures: [], humidities: [], positions: [], weights: [], alarms: [], habits: [] };
+    this.state = { api:'http://163.172.80.168:8080/',loaded: false, user: "", noises: [], temperatures: [], humidities: [], positions: [], weights: [], alarms: [], habits: [] };
   }
   componentDidMount() {
     fetch(this.state.api+'noises/user/'+this.props.user)
