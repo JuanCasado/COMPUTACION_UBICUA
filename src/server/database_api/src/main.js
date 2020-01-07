@@ -11,7 +11,14 @@ _mongoose.connect("mongodb://163.172.80.168:27017/smart_bed", {
     "user": "sensor_user",
     "pass": "sensor",
 });
-
+// Cors and headers
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+    next();
+});
 app.use(_bodyParser.json());
 app.use(_bodyParser.urlencoded({ extended: true }));
 
