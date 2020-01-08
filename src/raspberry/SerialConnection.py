@@ -8,20 +8,20 @@ class SerialConnection(ABC):
 		ABC.__init__(self)
 		self.file_path = file_path
 		self.baudrate = baudrate
-	
+
 	@abstractmethod
 	def connect (self):
 		pass
-	
+
 	@abstractmethod
 	def disconnect(self):
 		pass
-		
+
 	def reconnect(self):
 		self.disconnect()
 		time.sleep(1)
 		self.connect()
-		
+
 	@abstractmethod
 	def internal_read(self):
 		pass
