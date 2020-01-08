@@ -8,7 +8,7 @@ class WiredConnection(SerialConnection):
 		self.serial_connection = None
 				
 	def connect(self):
-		self.serial_connection = Serial(self.file_path, baudrate=self.baudrate, timeout=None)
+		self.serial_connection = Serial(self.file_path, baudrate=self.baudrate, timeout=1)
 		
 	def disconnect(self):
 		self.serial_connection.close()
