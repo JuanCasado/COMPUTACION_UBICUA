@@ -41,6 +41,8 @@ class Dashboard extends React.Component {
     this.noiseBar();
     this.humidityBar();
     this.drawAlarms()
+    // Update data.
+    this.updateData();
     // Set user id.
     this.setState({ user: this.props.user });
     // Get last weight from API Rest.
@@ -554,9 +556,9 @@ class Dashboard extends React.Component {
     // Main page of the dashboard
 
     // Update data
-    if (new Date().getSeconds()%5===0)
+    if (new Date().getSeconds()%3===0)
       {
-        setTimeout(this.updateData,1000)
+        setTimeout(this.updateData,500)
       }
 
     const mainPage = (
