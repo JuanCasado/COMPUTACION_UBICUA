@@ -5,8 +5,15 @@ from RestSender import RestSender, Recivers
 from RestReciver import RestReciver
 from JSONFormater import formatToJsonMap, DataType
 from Sounds import Songs, playSong
+import RPi.GPIO as GPIO
+
 
 if __name__=='__main__':
+	led_state = 0
+	LED=14
+	GPIO.setmode(GPIO.BCM)
+	GPIO.setwarnings(False)
+	GPIO.setup(LED, GPIO.OUT, initial=led_state)
 	device_name = 'SmartBed1'
 	#serial_connection = WiredConnection()
 	serial_connection = BluetoothConnection()
@@ -29,5 +36,8 @@ if __name__=='__main__':
 			rest_sender.send(formated_data[DataType.WEIGHT.value], Recivers.WEIGHT.value)
 			if formated_data[DataType.SOUND.value]:
 				playSong(Songs.EXPLOSION.value)
-		
-		
+		if rest_reciver.get_alarm(device_name):
+			playSong(Songs.ALARM.value)
+		GPIO.output(LED, led_state)
+		led_state = not led_state
+
