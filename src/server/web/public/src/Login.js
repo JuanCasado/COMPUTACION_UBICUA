@@ -31,41 +31,59 @@ class Login extends React.Component {
       this.setState({ error: true });
     }
   }
+
+  goRegister() {
+    ReactDOM.render(<Register/>, document.getElementById('root'));
+  }
+
   render() {
-    const mainForm = (<form onSubmit={this.handleSubmit}>
+    const mainForm = (
       <div className="start-menu centered">
+        <form onSubmit={this.handleSubmit}>
+          <div>
+            <h1 className="main-title">Smart <b className="blue-title">Bed</b> </h1>
+            <p className="sub-title">Improving your sleep</p>
+          </div>
+          <h2 className="section-title"><b>Login</b></h2>
+          <div className="dropdown-divider"></div>
+          <h3 className="form-title">Username</h3>
+          <input className="input-box" type="text" placeholder='Enter Username' value={this.state.user} onChange={this.handleUser} required />
+          <h3 className="form-title">Password</h3>
+          <input className="input-box" type='Password' placeholder='Enter password' value={this.state.password} onChange={this.handlePassword} required />
+          <div>
+            <button className="btton btton-presentation" type="submit" onClick={() => this.setState({ clicked: true })} >Sign in</button>
+          </div>
+          <div className="dropdown-divider"></div>
+
+        </form>
         <div>
-          <h1 className="main-title">Smart <b className="blue-title">Bed</b> </h1>
-          <p className="sub-title">Improving your sleep</p>
+          <button className="btton btton-login" onClick={() => this.goRegister()} >Sign up</button>
         </div>
-        <h2 className="section-title"><b>Login</b></h2>
-        <div className="dropdown-divider"></div>
-        <h3 className="form-title">Username</h3>
-        <input className="input-box" type="text" placeholder='Enter Username' value={this.state.user} onChange={this.handleUser} required />
-        <h3 className="form-title">Password</h3>
-        <input className="input-box" type='Password' placeholder='Enter password' value={this.state.password} onChange={this.handlePassword} required />
-        <div>
-          <button className="btton btton-presentation" type="submit" onClick={() => this.setState({ clicked: true })} >Sign in</button>
-        </div>
-      </div>
-    </form>);
-    const errorForm = (<form onSubmit={this.handleSubmit}>
+      </div>);
+
+    const errorForm = (
       <div className="start-menu centered">
+        <form onSubmit={this.handleSubmit}>
+
+          <div>
+            <h1 className="main-title">Smart <b className="blue-title">Bed</b> </h1>
+            <p className="sub-title">Improving your sleep</p>
+          </div>
+          <h2 className="section-title">Login<b className="error-message"><i className="fas fa-exclamation-triangle"></i>  Error invalid login  </b> </h2>
+          <div className="dropdown-divider"></div>
+          <h3 className="form-title">Username</h3>
+          <input className="input-box" type="text" placeholder='Enter Username' value={this.state.user} onChange={this.handleUser} required />
+          <h3 className="form-title">Password</h3>
+          <input className="input-box" type='Password' placeholder='Enter password' value={this.state.password} onChange={this.handlePassword} required />
+          <div>
+            <button className="btton btton-presentation" type="submit" >Sign in</button>
+          </div>
+          <div className="dropdown-divider"></div>
+        </form>
         <div>
-          <h1 className="main-title">Smart <b className="blue-title">Bed</b> </h1>
-          <p className="sub-title">Improving your sleep</p>
+          <button className="btton btton-login" onClick={() => this.goRegister()} >Sign up</button>
         </div>
-        <h2 className="section-title">Login<b className="error-message"><i className="fas fa-exclamation-triangle"></i>  Error invalid login  </b> </h2>
-        <div className="dropdown-divider"></div>
-        <h3 className="form-title">Username</h3>
-        <input className="input-box" type="text" placeholder='Enter Username' value={this.state.user} onChange={this.handleUser} required />
-        <h3 className="form-title">Password</h3>
-        <input className="input-box" type='Password' placeholder='Enter password' value={this.state.password} onChange={this.handlePassword} required />
-        <div>
-          <button className="btton btton-presentation" type="submit" >Sign in</button>
-        </div>
-      </div>
-    </form>);
+      </div>);
     if (this.state.error) {
       return (
         errorForm
