@@ -6,7 +6,7 @@ class Dashboard extends React.Component {
     super(props);
 
     // Define states to use in the web.
-    this.state = { time: 0, days: [0, 0, 0, 0, 0, 0, 0], alarms: this.props.alarms, lastTemp: { "value": 0 }, lastNoises: { "value": 0 }, lastHumidity: { "value": 0 }, lastWeight: { "value": 0 }, user: "user", height: 170, weight: 60, diffWeight: 0, bmi: <p> </p>, bmiResult: <p> </p>, positionImage: "../img/empty.png", positionText: "Oops! We don't have any record yet", lastPosition: "", alarmResult: <p> </p> };
+    this.state = { time: 0, days: [0, 0, 0, 0, 0, 0, 0], alarms: this.props.alarms, lastTemp: { "value": 0 }, lastNoises: { "value": 0 }, lastHumidity: { "value": 0 }, lastWeight: { "value": 0 }, user: "user", height: 170, weight: 60, diffWeight: 0,diffTemp: 0,diffHum: 0,diffNoise: 0, bmi: <p> </p>, bmiResult: <p> </p>, positionImage: "../img/empty.png", positionText: "Oops! We don't have any record yet", lastPosition: "", alarmResult: <p> </p> };
 
     // Bind all functions.
     this.handleHeight = this.handleHeight.bind(this);
@@ -268,8 +268,12 @@ class Dashboard extends React.Component {
 
   // Temperature line chart.
   tempLine = () => {
+
     // Get the data of temperature from API.
     const temperatures = this.props.temperatures.map((temperature) => temperature.value);
+    const sum = temperatures.slice(-24).reduce((a, b) => a + b, 0);
+    const avg = (sum / temperatures.slice(-24).length) || 0;
+    this.setState({ diffTemp: Math.round((avg-18) * 100) / 100});
     console.log("temperature")
     console.log(temperatures.slice(-24))
     const temperaturesTimes = this.props.temperatures.map((temperature) => new Date(temperature.captured).getHours() + ":00");
@@ -348,8 +352,13 @@ class Dashboard extends React.Component {
   // Humidity bar chart.
   humidityBar = () => {
     // Get the data of humidity from API.
+
     const humidities = this.props.humidities.map((humidity) => humidity.value);
     const humiditiesTimes = this.props.humidities.map((humidity) => new Date(humidity.captured).getHours() + ":00");
+
+    const sum = humidities.slice(-24).reduce((a, b) => a + b, 0);
+    const avg = (sum / humidities.slice(-24).length) || 0;
+    this.setState({ diffHum: Math.round((avg-40) * 100) / 100});
     console.log("humidities")
     console.log(humidities.slice(-24))
     var humiditiesData = {
@@ -424,12 +433,16 @@ class Dashboard extends React.Component {
     // Get the data of noise from API.
     const noises = this.props.noises.map((noise) => noise.value);
     const noisesTimes = this.props.noises.map((noise) => new Date(noise.captured).getHours() + ":00");
+
+    const sum = noises.slice(-24).reduce((a, b) => a + b, 0);
+    const avg = (sum / noises.slice(-24).length) || 0;
+    this.setState({ diffNoise: Math.round((avg) * 100) / 100});
     console.log("noises")
     console.log(noises.slice(-24))
     var noiseData = {
       labels: noisesTimes.slice(-24),
       datasets: [{
-        label: "Sound decibel",
+        label: "Sound scale",
         // Get last 24 values.
         data: noises.slice(-24),
         backgroundColor: ["#003f5c", "#2f4b7c", "#665191", "#a05195", "#d45087", "#f95d6a", "#ff7c43", "#ffa600", "#003f5c", "#2f4b7c", "#665191", "#a05195", "#d45087", "#f95d6a", "#ff7c43", "#ffa600", "#003f5c", "#2f4b7c", "#665191", "#a05195", "#d45087", "#f95d6a", "#ff7c43", "#ffa600"]
@@ -445,13 +458,23 @@ class Dashboard extends React.Component {
           display: true,
           text: 'Sounds in the room'
         },
+        scales: {
+          yAxes: [
+            {
+              ticks: {
+                min: 0,
+                max: 10
+              }
+            }
+          ]
+        },
         annotation: {
           annotations: [{
             borderDash: [3, 3],
             type: 'line',
             mode: 'horizontal',
             scaleID: 'y-axis-0',
-            value: 50,
+            value: 7,
             borderColor: '#DB5461',
             borderWidth: 3,
             label: {
@@ -618,7 +641,7 @@ class Dashboard extends React.Component {
             </div>
             <div className="card col-md-2 ">
               <div className="card-body">
-                <h3 className="card-title">Now<i className="far fa-clock"></i></h3>
+                <h3 className="card-title"><i className="far fa-clock small-right-tab"></i>Now</h3>
                 <p className="card-text">Temperature: <b className="blue-title">{this.state.lastTemp.value}º</b></p>
                 <p className="card-text">Humidity:  <b className="blue-title">{this.state.lastHumidity.value}</b></p>
                 <p className="card-text">Noise: <b className="blue-title">{this.state.lastNoises.value}</b></p>
@@ -631,10 +654,19 @@ class Dashboard extends React.Component {
             </div>
           </div>
           <div className="row">
-            <div className="col-md-5 card sub chart-wrapper">
+            <div className="col-md-4card sub chart-wrapper">
               <canvas ref={this.humidityRef}></canvas>
             </div>
-            <div className="col-md-6 card sub chart-wrapper">
+            <div className="card col-md-2 ">
+              <div className="card-body">
+                <h3 className="card-title"><i className="fas fa-bed small-right-tab"></i>Quality</h3>
+                <p className="card-text">Temperature:  <p className={(Math.abs(this.state.diffTemp) < 6) ? "d-inline ml-3 text-success" : "d-inline ml-3 text-danger"}>{this.state.diffTemp}</p></p>
+                <p className="card-text">Humidity:   <p className={(Math.abs(this.state.diffHum) < 10) ? "d-inline ml-3 text-success" : "d-inline ml-3 text-danger"}>{this.state.diffHum }</p></p>
+                <p className="card-text">Noise:   <p className={(this.state.diffNoise < 7) ? "d-inline ml-3 text-success" : "d-inline ml-3 text-danger"}>{this.state.diffNoise}</p></p>
+                <p className="card-text">Total: <b className="blue-title">{100 - Math.abs(this.state.diffHum)-Math.abs(this.state.diffTemp)+this.state.diffNoise}</b></p>
+              </div>
+            </div>
+            <div className="col-md-5 card sub chart-wrapper">
               <canvas ref={this.tempRef}></canvas>
             </div>
           </div>
