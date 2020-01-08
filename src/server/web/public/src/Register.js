@@ -42,7 +42,7 @@ class Register extends React.Component {
                     "name": this.state.name,
                     "age": this.state.age,
                     "mail": this.state.mail,
-                    "passw": this.state.passw,
+                    "passw": this.state.password,
                     "created": new Date()
                 })
         }).then(() => {
@@ -63,7 +63,7 @@ class Register extends React.Component {
                     <h3 className="form-title">Username</h3>
                     <input className="input-box" type="text" placeholder='Enter Username' value={this.state.user} onChange={this.handleUser} required />
                     <h3 className="form-title">Password</h3>
-                    <input className="input-box" type='Password' placeholder='Enter password' value={this.state.password} onChange={this.handlePassword} required />
+                    <input className="input-box" type='password' placeholder='Enter password' value={this.state.password} onChange={this.handlePassword} required />
 
                     <h3 className="form-title">Name</h3>
                     <input className="input-box" type="text" placeholder='Enter Name' value={this.state.name} onChange={this.handleName} required />
