@@ -63,6 +63,10 @@ const AlarmModel = _mongoose.model("alarm",{
     {
         type: Date,
         required: true
+    },
+    has_ringed:
+    {
+        type: Boolean   
     }
 });
 
