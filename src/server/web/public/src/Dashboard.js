@@ -6,7 +6,7 @@ class Dashboard extends React.Component {
     super(props);
 
     // Define states to use in the web.
-    this.state = { time: 0, days: [0, 0, 0, 0, 0, 0, 0], alarms: this.props.alarms, user: "user", height: 170, weight: 60, diffWeight: 0, bmi: <p> </p>, bmiResult: <p> </p>, positionImage: "../img/empty.png", positionText: "Oops! We don't have any record yet", lastPosition: "", alarmResult: <p> </p> };
+    this.state = { time: 0, days: [0, 0, 0, 0, 0, 0, 0], alarms: this.props.alarms, lastTemp: { "value": 0 }, lastNoises: { "value": 0 }, lastHumidity: { "value": 0 }, lastWeight: { "value": 0 }, user: "user", height: 170, weight: 60, diffWeight: 0, bmi: <p> </p>, bmiResult: <p> </p>, positionImage: "../img/empty.png", positionText: "Oops! We don't have any record yet", lastPosition: "", alarmResult: <p> </p> };
 
     // Bind all functions.
     this.handleHeight = this.handleHeight.bind(this);
@@ -20,6 +20,11 @@ class Dashboard extends React.Component {
     this.drawAlarms = this.drawAlarms.bind(this);
     this.getAlarms = this.getAlarms.bind(this);
     this.testAlarm = this.testAlarm.bind(this);
+    this.updateTemp = this.updateTemp.bind(this);
+    this.updateHumidities = this.updateHumidities.bind(this);
+    this.updateNoises = this.updateNoises.bind(this);
+    this.updateWeights = this.updateWeights.bind(this);
+    this.updateData = this.updateData.bind(this);
   }
 
   // Create refs for the canvas of charts.
@@ -47,28 +52,67 @@ class Dashboard extends React.Component {
     const positions = this.props.positions.map((position) => position.position);
     var last = positions[positions.length - 1];
     this.setState({ lastPosition: last });
-    const sideMessage ="You are sleeping in the best position, keep going! It makes you snooze less to have a better sleep, but if you have some forms of arthritis, sleeping in the side position may make you sore";
-    const backMessage ="It is not a bad position, but you should try side one. It can produce back pain (even intensify it), so this is not the best sleep position for lower back pain. If you suffer from snoring or sleep apnea, sleeping on your back may aggravate these conditions as well. ";
+    const sideMessage = "You are sleeping in the best position, keep going! It makes you snooze less to have a better sleep, but if you have some forms of arthritis, sleeping in the side position may make you sore";
+    const backMessage = "It is not a bad position, but you should try side one. It can produce back pain (even intensify it), so this is not the best sleep position for lower back pain. If you suffer from snoring or sleep apnea, sleeping on your back may aggravate these conditions as well. ";
     // Show the data, text and image, for that last position
     if (last === "Right-Spread") {
       this.setState({ positionImage: "../right-spread.jpg" });
-      this.setState({ positionText:  sideMessage});
+      this.setState({ positionText: sideMessage });
     } else if (last === "Left-Spread") {
       this.setState({ positionImage: "../img/left-spread.jpg" });
-      this.setState({ positionText: sideMessage});
+      this.setState({ positionText: sideMessage });
     } else if (last === "Right-NotSpread") {
       this.setState({ positionImage: "../img/right-notspread.jpg" });
       this.setState({ positionText: sideMessage });
     } else if (last === "Left-NotSpread") {
       this.setState({ positionImage: "../img/left-notspread.jpg" });
-      this.setState({ positionText: sideMessage});
+      this.setState({ positionText: sideMessage });
     } else if (last === "Center-Spread") {
       this.setState({ positionImage: "../img/center-spread.jpg" });
-      this.setState({ positionText:  backMessage});
+      this.setState({ positionText: backMessage });
     } else if (last === "Center-NotSpread") {
       this.setState({ positionImage: "../img/center-notspread.jpg" });
       this.setState({ positionText: backMessage });
     }
+  }
+
+  updateData() {
+    this.updateTemp();
+    this.updateWeights();
+    this.updateHumidities();
+    this.updateNoises();
+  }
+  updateTemp() {
+    fetch("http://163.172.80.168:8080/temperatures/user/last/" + this.props.user)
+      .then(res => res.json())
+      .then((data) => {
+        this.setState({ lastTemp: data });
+      }).then(
+      ).catch(console.log)
+  }
+  updateWeights() {
+    fetch("http://163.172.80.168:8080/weights/user/last/" + this.props.user)
+      .then(res => res.json())
+      .then((data) => {
+        this.setState({ lastWeight: data });
+      }).then(
+      ).catch(console.log)
+  }
+  updateHumidities() {
+    fetch("http://163.172.80.168:8080/humidities/user/last/" + this.props.user)
+      .then(res => res.json())
+      .then((data) => {
+        this.setState({ lastHumidity: data });
+      }).then(
+      ).catch(console.log)
+  }
+  updateNoises() {
+    fetch("http://163.172.80.168:8080/noises/user/last/" + this.props.user)
+      .then(res => res.json())
+      .then((data) => {
+        this.setState({ lastNoises: data });
+      }).then(
+      ).catch(console.log)
   }
 
   // Get the height from the input box.
@@ -154,7 +198,7 @@ class Dashboard extends React.Component {
     const week = this.props.habits.map((habit) => (habit.name === "sleep-week") ? habit.value : undefined);
     // Set our data
     var sleepData = {
-      labels: ["Sleeped", "Max", "Min", "Last Week"],
+      labels: ["Slept", "Max", "Min", "Last Week"],
       datasets: [{
         // Remove undefined
         data: [yesterday.filter(Number), 9, 7, week.filter(Number)],
@@ -226,7 +270,7 @@ class Dashboard extends React.Component {
     const temperatures = this.props.temperatures.map((temperature) => temperature.value);
     console.log("temperature")
     console.log(temperatures.slice(-24))
-    const temperaturesTimes = this.props.temperatures.map((temperature) => new Date(temperature.captured).getHours()+":00");
+    const temperaturesTimes = this.props.temperatures.map((temperature) => new Date(temperature.captured).getHours() + ":00");
     var temperatureData = {
       labels: temperaturesTimes.slice(-24),
       datasets: [{
@@ -303,7 +347,7 @@ class Dashboard extends React.Component {
   humidityBar = () => {
     // Get the data of humidity from API.
     const humidities = this.props.humidities.map((humidity) => humidity.value);
-    const humiditiesTimes = this.props.humidities.map((humidity) => new Date(humidity.captured).getHours()+":00");
+    const humiditiesTimes = this.props.humidities.map((humidity) => new Date(humidity.captured).getHours() + ":00");
     console.log("humidities")
     console.log(humidities.slice(-24))
     var humiditiesData = {
@@ -377,7 +421,7 @@ class Dashboard extends React.Component {
   noiseBar = () => {
     // Get the data of noise from API.
     const noises = this.props.noises.map((noise) => noise.value);
-    const noisesTimes = this.props.noises.map((noise) => new Date(noise.captured).getHours()+":00");
+    const noisesTimes = this.props.noises.map((noise) => new Date(noise.captured).getHours() + ":00");
     console.log("noises")
     console.log(noises.slice(-24))
     var noiseData = {
@@ -425,7 +469,7 @@ class Dashboard extends React.Component {
     const result = this.state.alarms.map((alarm) =>
       <div className="row my-3" key={alarm._id}>
         <h4 className="card-text align-middle mr-3">{Math.floor(alarm.time / 3600)}:{((alarm.time % 3600) / 60 < 10) ? "0" + Math.floor((alarm.time % 3600) / 60) : Math.floor((alarm.time % 3600) / 60)}</h4>
-        <label class="switch mr-3"><input type="checkbox" defaultChecked={alarm.active} onChange={() => this.handleActive(alarm._id, alarm.active)} />    <div></div>
+        <label className="switch mr-3"><input type="checkbox" defaultChecked={alarm.active} onChange={() => this.handleActive(alarm._id, alarm.active)} />    <div></div>
         </label>
 
         <div className="list-group list-group-horizontal-xl">
@@ -437,7 +481,7 @@ class Dashboard extends React.Component {
           <li className={alarm.days[5] === 1 ? "list-group-item active" : "list-group-item"}>Sat.</li>
           <li className={alarm.days[6] === 1 ? "list-group-item active" : "list-group-item"}>Sun.</li>
         </div>
-        <button type="button" class="btn btn-danger mx-3 mt-2 btton-fix" onClick={() => this.removeAlarm(alarm._id)} >Delete</button>
+        <button type="button" className="btn btn-danger mx-3 mt-2 btton-fix" onClick={() => this.removeAlarm(alarm._id)} >Delete</button>
       </div>
     );
     this.setState({ alarmResult: result }), this.render();
@@ -508,13 +552,20 @@ class Dashboard extends React.Component {
   };
   render() {
     // Main page of the dashboard
+
+    // Update data
+    if (new Date().getSeconds()%5===0)
+      {
+        setTimeout(this.updateData,1000)
+      }
+
     const mainPage = (
       <div className="bg">
         <div className="top-menu">
           <h1 className="main-title">Smart <b className="blue-title">Bed</b> </h1>
           <p className="sub-title">Ubiquitous Computing at UAH</p>
         </div>
-        <div class="col-md-12 main-fix">
+        <div className="col-md-12 main-fix">
           <div className="row">
             <div className="col-md-5 sub chart-wrapper">
               <canvas ref={this.weightRef}  ></canvas>
@@ -528,8 +579,8 @@ class Dashboard extends React.Component {
                       <div>
                         <h4 className="card-text">
                           <i className="fas fa-weight small-right-tab"></i>Your weight: <b className="blue-title">{this.state.weight + " Kg"}</b>
-                          <p class={(this.state.diffWeight < 0) ? "d-inline ml-3 text-success" : "d-inline ml-3 text-danger"}>{this.state.diffWeight + " Kg (in a week)"}</p>
-                          </h4>
+                          <p className={(this.state.diffWeight < 0) ? "d-inline ml-3 text-success" : "d-inline ml-3 text-danger"}>{this.state.diffWeight + " Kg (in a week)"}</p>
+                        </h4>
                         <h4 className="card-text">Your body mass index: <b className="blue-title">{this.state.bmi}</b></h4>
                         <input className="input-box-dash right-tab" type="number" placeholder='Enter your height in cm' min="100" max="210" onChange={this.handleHeight} />
                         <button className="btton btton-presentation" type="submit" >Calculate</button>
@@ -548,7 +599,7 @@ class Dashboard extends React.Component {
             </div>
           </div>
           <div className="row mx-0">
-            <div className="card col-md-6 ">
+            <div className="card col-md-4 ">
               <div className="row no-gutters">
                 <div className="col-md-3 ">
                   <img src={this.state.positionImage} className="card-img" alt="sleep-position"></img>
@@ -563,11 +614,21 @@ class Dashboard extends React.Component {
                 </div>
               </div>
             </div>
+            <div className="card col-md-2 ">
+              <div className="card-body">
+                <h3 className="card-title">Now<i className="far fa-clock"></i></h3>
+                <p className="card-text">Temperature: <b className="blue-title">{this.state.lastTemp.value}º</b></p>
+                <p className="card-text">Humidity:  <b className="blue-title">{this.state.lastHumidity.value}</b></p>
+                <p className="card-text">Noise: <b className="blue-title">{this.state.lastNoises.value}</b></p>
+                <p className="card-text">Weight: <b className="blue-title">{this.state.lastWeight.value}</b></p>
+                <p className="card-text"><small className="text-muted">Updated at {this.state.lastTemp.captured}</small></p>
+              </div>
+            </div>
             <div className="col-md-5  sub chart-wrapper">
               <canvas ref={this.sleepRef}></canvas>
             </div>
           </div>
-          <div class="row">
+          <div className="row">
             <div className="col-md-5 card sub chart-wrapper">
               <canvas ref={this.humidityRef}></canvas>
             </div>
@@ -581,9 +642,10 @@ class Dashboard extends React.Component {
             </div>
             <div className="card col-md-5 ">
               <div className="card-body">
-                <div class="row">
+                <div className="row">
                   <h3 className="card-title">Alarms</h3>
-                  <button className="small-btton btton-login ml-3" onClick={this.testAlarm}>Test alarm</button></div>
+                  <button className="small-btton btton-login ml-3" onClick={this.testAlarm}>Test alarm</button>
+                </div>
 
                 <form onSubmit={this.handleNewAlarm}>
                   <div >

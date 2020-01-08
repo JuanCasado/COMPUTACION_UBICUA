@@ -12,7 +12,7 @@ class ApplicationButton extends React.Component {
     return (
       <a  className="btton btton-login"
               onClick={() => this.setState({ clicked: true })}>
-        Sign in <i class="fas fa-sign-in-alt tab"></i>
+        Sign in <i className="fas fa-sign-in-alt tab"></i>
       </a>
     );
   }
