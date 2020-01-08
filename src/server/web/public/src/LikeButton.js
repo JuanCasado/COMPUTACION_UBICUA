@@ -14,7 +14,7 @@ class LikeButton extends React.Component {
       <button className="btton btton-like"
               onClick={() => this.setState({ liked: true })}>
         Like
-        <i class="fas fa-heart tab"></i>
+        <i className="fas fa-heart tab"></i>
       </button>
     );
   }

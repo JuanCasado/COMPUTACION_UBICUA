@@ -7,13 +7,13 @@ class StoreButton extends React.Component {
 
   render() {
     if (this.state.liked) {
-      return <h2 className="message">We are working hard in it!<i class="fas fa-hammer tab"></i></h2>;
+      return <h2 className="message">We are working hard in it!<i className="fas fa-hammer tab"></i></h2>;
     }
     return (
       <button className="btton btton-store"
               onClick={() => this.setState({ liked: true })}>
         Store
-        <i class="fas fa-shopping-cart tab"></i>
+        <i className="fas fa-shopping-cart tab"></i>
       </button>
     );
   }

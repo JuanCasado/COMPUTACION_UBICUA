@@ -11,7 +11,8 @@ _mongoose.connect("mongodb://163.172.80.168:27017/smart_bed", {
     "user": "sensor_user",
     "pass": "sensor",
 });
-// Cors and headers
+
+// Configurar cabeceras y cors
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
@@ -19,6 +20,8 @@ app.use((req, res, next) => {
     res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
     next();
 });
+
+
 app.use(_bodyParser.json());
 app.use(_bodyParser.urlencoded({ extended: true }));
 
@@ -63,10 +66,6 @@ const AlarmModel = _mongoose.model("alarm",{
     {
         type: Date,
         required: true
-    },
-    has_ringed:
-    {
-        type: Boolean   
     }
 });
 
@@ -350,6 +349,18 @@ app.get("/flexes/user/:id", async (request, response, next) => {
     }
 });
 
+// Get last register from the database using user.
+app.get("/flexes/user/last/:id", async (request, response, next) => {
+    try {
+        var record = await FlexModel.findOne({userId:request.params.id}, {},{ sort: { '_id' : -1 } }).exec();
+        response.send(record);
+    } catch (error) {
+        response.status(500).send(error);
+    }
+});
+
+
+
 // Update a register in the database.
 app.put("/flex/:id", async (request, response, next) => {
     try {
@@ -485,6 +496,16 @@ app.get("/humidities/user/:id", async (request, response, next) => {
     }
 });
 
+// Get last register from the database using user.
+app.get("/humidities/user/last/:id", async (request, response, next) => {
+    try {
+        var record = await HumidityModel.findOne({userId:request.params.id}, {},{ sort: { '_id' : -1 } }).exec();
+        response.send(record);
+    } catch (error) {
+        response.status(500).send(error);
+    }
+});
+
 // Update a register in the database.
 app.put("/humidity/:id", async (request, response, next) => {
     try {
@@ -546,6 +567,16 @@ app.get("/noises/:id", async (request, response, next) => {
 app.get("/noises/user/:id", async (request, response, next) => {
     try {
         var record = await NoiseModel.find({userId:request.params.id}).exec();
+        response.send(record);
+    } catch (error) {
+        response.status(500).send(error);
+    }
+});
+
+// Get last register from the database using user.
+app.get("/noises/user/last/:id", async (request, response, next) => {
+    try {
+        var record = await NoiseModel.findOne({userId:request.params.id}, {},{ sort: { '_id' : -1 } }).exec();
         response.send(record);
     } catch (error) {
         response.status(500).send(error);
@@ -619,6 +650,16 @@ app.get("/positions/user/:id", async (request, response, next) => {
     }
 });
 
+// Get a register from the database using user.
+app.get("/positions/user/last/:id", async (request, response, next) => {
+    try {
+        var record = await PositionModel.findOne({userId:request.params.id}, {},{ sort: { '_id' : -1 } }).exec();
+        response.send(record);
+    } catch (error) {
+        response.status(500).send(error);
+    }
+});
+
 // Update a register in the database.
 app.put("/position/:id", async (request, response, next) => {
     try {
@@ -684,6 +725,15 @@ app.get("/temperatures/user/:id", async (request, response, next) => {
     }
 });
 
+// Get last register from the database using user.
+app.get("/temperatures/user/last/:id", async (request, response, next) => {
+    try {
+        var record = await TemperatureModel.findOne({userId:request.params.id}, {},{ sort: { '_id' : -1 } }).exec();
+        response.send(record);
+    } catch (error) {
+        response.status(500).send(error);
+    }
+});
 
 // Update a register in the database.
 app.put("/temperature/:id", async (request, response, next) => {
@@ -823,6 +873,17 @@ app.get("/weights/:id", async (request, response, next) => {
 app.get("/weights/user/:id", async (request, response, next) => {
     try {
         var record = await WeightModel.find({userId:request.params.id}).exec();
+        response.send(record);
+    } catch (error) {
+        response.status(500).send(error);
+    }
+});
+
+
+// Get last register from the database using user.
+app.get("/weights/user/last/:id", async (request, response, next) => {
+    try {
+        var record = await WeightModel.findOne({userId:request.params.id}, {},{ sort: { '_id' : -1 } }).exec();
         response.send(record);
     } catch (error) {
         response.status(500).send(error);

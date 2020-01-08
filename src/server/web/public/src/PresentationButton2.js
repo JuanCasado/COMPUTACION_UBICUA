@@ -1,6 +1,6 @@
 
 
-class PresentationButton extends React.Component {
+class PresentationButton2 extends React.Component {
   constructor(props) {
     super(props);
   }

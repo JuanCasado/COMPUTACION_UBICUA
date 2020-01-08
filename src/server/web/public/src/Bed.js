@@ -52,7 +52,7 @@ class Bed extends React.Component {
   render() {
     const mainForm = (
       <div className="bg-loader">
-        <div class="loader"></div>
+        <div className="loader"></div>
       </div>);
     setTimeout(() => this.setState({ loaded: true }), 2000);
     if (this.state.loaded) {
